@@ -48,7 +48,7 @@ I (.\fly_sky_software\common\maths.h)(0x64A1AEE8)
 I (.\fly_sky_software\drivers\soft\bmp280.h)(0x64B82A55)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5CEB79E2)
-I (.\fly_sky_software\control\sensors.h)(0x64BD627D)
+I (.\fly_sky_software\control\sensors.h)(0x64BD66E9)
 I (.\fly_sky_software\common\structconfig.h)(0x648D6629)
 I (.\fly_sky_software\drivers\soft\nrf2401.h)(0x64B39D55)
 F (../Core/Src/gpio.c)(0x64B83774)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Device/ST/STM32F1xx/Include -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Include -I .\fly_sky_software -I .\fly_sky_software\system -I .\fly_sky_software\common -I .\fly_sky_software\drivers\soft -I .\fly_sky_software\control-I.\RTE\_fly_sky_software-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB -DSTM32F103_DMP -DMPU6050 -DEMPL -DMPL_LOG_NDEBUG="1"-o fly_sky_software\gpio.o --omf_browse fly_sky_software\gpio.crf --depend fly_sky_software\gpio.d)
@@ -99,7 +99,7 @@ I (.\fly_sky_software\common\maths.h)(0x64A1AEE8)
 I (.\fly_sky_software\drivers\soft\bmp280.h)(0x64B82A55)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5CEB79E2)
-I (.\fly_sky_software\control\sensors.h)(0x64BD627D)
+I (.\fly_sky_software\control\sensors.h)(0x64BD66E9)
 I (.\fly_sky_software\common\structconfig.h)(0x648D6629)
 I (.\fly_sky_software\drivers\soft\nrf2401.h)(0x64B39D55)
 F (../Core/Src/usart.c)(0x64B6D84C)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Device/ST/STM32F1xx/Include -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Include -I .\fly_sky_software -I .\fly_sky_software\system -I .\fly_sky_software\common -I .\fly_sky_software\drivers\soft -I .\fly_sky_software\control-I.\RTE\_fly_sky_software-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB -DSTM32F103_DMP -DMPU6050 -DEMPL -DMPL_LOG_NDEBUG="1"-o fly_sky_software\usart.o --omf_browse fly_sky_software\usart.crf --depend fly_sky_software\usart.d)
@@ -150,7 +150,7 @@ I (.\fly_sky_software\common\maths.h)(0x64A1AEE8)
 I (.\fly_sky_software\drivers\soft\bmp280.h)(0x64B82A55)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5CEB79E2)
-I (.\fly_sky_software\control\sensors.h)(0x64BD627D)
+I (.\fly_sky_software\control\sensors.h)(0x64BD66E9)
 I (.\fly_sky_software\common\structconfig.h)(0x648D6629)
 I (.\fly_sky_software\drivers\soft\nrf2401.h)(0x64B39D55)
 F (../Core/Src/stm32f1xx_it.c)(0x64B3982B)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Device/ST/STM32F1xx/Include -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Include -I .\fly_sky_software -I .\fly_sky_software\system -I .\fly_sky_software\common -I .\fly_sky_software\drivers\soft -I .\fly_sky_software\control-I.\RTE\_fly_sky_software-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB -DSTM32F103_DMP -DMPU6050 -DEMPL -DMPL_LOG_NDEBUG="1"-o fly_sky_software\stm32f1xx_it.o --omf_browse fly_sky_software\stm32f1xx_it.crf --depend fly_sky_software\stm32f1xx_it.d)
@@ -201,7 +201,7 @@ I (.\fly_sky_software\common\maths.h)(0x64A1AEE8)
 I (.\fly_sky_software\drivers\soft\bmp280.h)(0x64B82A55)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5CEB79E2)
-I (.\fly_sky_software\control\sensors.h)(0x64BD627D)
+I (.\fly_sky_software\control\sensors.h)(0x64BD66E9)
 I (.\fly_sky_software\common\structconfig.h)(0x648D6629)
 I (.\fly_sky_software\drivers\soft\nrf2401.h)(0x64B39D55)
 I (../Core/Inc/stm32f1xx_it.h)(0x64A116C8)
@@ -253,7 +253,7 @@ I (.\fly_sky_software\common\maths.h)(0x64A1AEE8)
 I (.\fly_sky_software\drivers\soft\bmp280.h)(0x64B82A55)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5CEB79E2)
-I (.\fly_sky_software\control\sensors.h)(0x64BD627D)
+I (.\fly_sky_software\control\sensors.h)(0x64BD66E9)
 I (.\fly_sky_software\common\structconfig.h)(0x648D6629)
 I (.\fly_sky_software\drivers\soft\nrf2401.h)(0x64B39D55)
 F (.\fly_sky_software\system\delay.c)(0x64B38987)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Device/ST/STM32F1xx/Include -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Include -I .\fly_sky_software -I .\fly_sky_software\system -I .\fly_sky_software\common -I .\fly_sky_software\drivers\soft -I .\fly_sky_software\control-I.\RTE\_fly_sky_software-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB -DSTM32F103_DMP -DMPU6050 -DEMPL -DMPL_LOG_NDEBUG="1"-o fly_sky_software\delay.o --omf_browse fly_sky_software\delay.crf --depend fly_sky_software\delay.d)
@@ -799,7 +799,7 @@ I (.\fly_sky_software\common\maths.h)(0x64A1AEE8)
 I (.\fly_sky_software\drivers\soft\bmp280.h)(0x64B82A55)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5CEB79E2)
-I (.\fly_sky_software\control\sensors.h)(0x64BD627D)
+I (.\fly_sky_software\control\sensors.h)(0x64BD66E9)
 I (.\fly_sky_software\common\structconfig.h)(0x648D6629)
 I (.\fly_sky_software\drivers\soft\nrf2401.h)(0x64B39D55)
 F (.\fly_sky_software\iic.c)(0x64947C0D)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Device/ST/STM32F1xx/Include -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Include -I .\fly_sky_software -I .\fly_sky_software\system -I .\fly_sky_software\common -I .\fly_sky_software\drivers\soft -I .\fly_sky_software\control-I.\RTE\_fly_sky_software-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB -DSTM32F103_DMP -DMPU6050 -DEMPL -DMPL_LOG_NDEBUG="1"-o fly_sky_software\iic.o --omf_browse fly_sky_software\iic.crf --depend fly_sky_software\iic.d)
@@ -832,7 +832,7 @@ I (C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HA
 I (C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x64A5A7C2)
 I (C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x63B33312)
 I (C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x63B33312)
-F (.\fly_sky_software\mpu.c)(0x64BBDE99)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Device/ST/STM32F1xx/Include -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Include -I .\fly_sky_software -I .\fly_sky_software\system -I .\fly_sky_software\common -I .\fly_sky_software\drivers\soft -I .\fly_sky_software\control-I.\RTE\_fly_sky_software-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB -DSTM32F103_DMP -DMPU6050 -DEMPL -DMPL_LOG_NDEBUG="1"-o fly_sky_software\mpu.o --omf_browse fly_sky_software\mpu.crf --depend fly_sky_software\mpu.d)
+F (.\fly_sky_software\mpu.c)(0x64BD6A35)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Device/ST/STM32F1xx/Include -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Include -I .\fly_sky_software -I .\fly_sky_software\system -I .\fly_sky_software\common -I .\fly_sky_software\drivers\soft -I .\fly_sky_software\control-I.\RTE\_fly_sky_software-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB -DSTM32F103_DMP -DMPU6050 -DEMPL -DMPL_LOG_NDEBUG="1"-o fly_sky_software\mpu.o --omf_browse fly_sky_software\mpu.crf --depend fly_sky_software\mpu.d)
 I (fly_sky_software\mpu.h)(0x6485EF3A)
 I (fly_sky_software\iic.h)(0x64947A65)
 I (C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x63B33312)
@@ -881,7 +881,7 @@ I (.\fly_sky_software\common\maths.h)(0x64A1AEE8)
 I (.\fly_sky_software\drivers\soft\bmp280.h)(0x64B82A55)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5CEB79E2)
-I (.\fly_sky_software\control\sensors.h)(0x64BD627D)
+I (.\fly_sky_software\control\sensors.h)(0x64BD66E9)
 I (.\fly_sky_software\common\structconfig.h)(0x648D6629)
 I (.\fly_sky_software\drivers\soft\nrf2401.h)(0x64B39D55)
 F (.\fly_sky_software\drivers\soft\fbm320.c)(0x648DDBF8)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Device/ST/STM32F1xx/Include -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Include -I .\fly_sky_software -I .\fly_sky_software\system -I .\fly_sky_software\common -I .\fly_sky_software\drivers\soft -I .\fly_sky_software\control-I.\RTE\_fly_sky_software-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB -DSTM32F103_DMP -DMPU6050 -DEMPL -DMPL_LOG_NDEBUG="1"-o fly_sky_software\fbm320.o --omf_browse fly_sky_software\fbm320.crf --depend fly_sky_software\fbm320.d)
@@ -970,7 +970,7 @@ I (.\fly_sky_software\common\maths.h)(0x64A1AEE8)
 I (.\fly_sky_software\drivers\soft\bmp280.h)(0x64B82A55)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5CEB79E2)
-I (.\fly_sky_software\control\sensors.h)(0x64BD627D)
+I (.\fly_sky_software\control\sensors.h)(0x64BD66E9)
 I (.\fly_sky_software\common\structconfig.h)(0x648D6629)
 F (.\fly_sky_software\drivers\soft\bmp280.c)(0x64B82A94)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Device/ST/STM32F1xx/Include -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Include -I .\fly_sky_software -I .\fly_sky_software\system -I .\fly_sky_software\common -I .\fly_sky_software\drivers\soft -I .\fly_sky_software\control-I.\RTE\_fly_sky_software-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB -DSTM32F103_DMP -DMPU6050 -DEMPL -DMPL_LOG_NDEBUG="1"-o fly_sky_software\bmp280.o --omf_browse fly_sky_software\bmp280.crf --depend fly_sky_software\bmp280.d)
 I (fly_sky_software\drivers\soft\bmp280.h)(0x64B82A55)
@@ -1019,7 +1019,7 @@ I (.\fly_sky_software\control\positionEstimate.h)(0x64A1BDD3)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x64A1AF73)
 I (.\fly_sky_software\common\maths.h)(0x64A1AEE8)
 I (.\fly_sky_software\drivers\soft\bmp280.h)(0x64B82A55)
-I (.\fly_sky_software\control\sensors.h)(0x64BD627D)
+I (.\fly_sky_software\control\sensors.h)(0x64BD66E9)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5CEB79E2)
 I (.\fly_sky_software\common\structconfig.h)(0x648D6629)
 I (.\fly_sky_software\drivers\soft\nrf2401.h)(0x64B39D55)
@@ -1075,7 +1075,7 @@ I (.\fly_sky_software\control\data.h)(0x64A5A5EA)
 I (.\fly_sky_software\control\positionEstimate.h)(0x64A1BDD3)
 I (.\fly_sky_software\common\maths.h)(0x64A1AEE8)
 I (.\fly_sky_software\drivers\soft\bmp280.h)(0x64B82A55)
-I (.\fly_sky_software\control\sensors.h)(0x64BD627D)
+I (.\fly_sky_software\control\sensors.h)(0x64BD66E9)
 I (.\fly_sky_software\common\structconfig.h)(0x648D6629)
 I (.\fly_sky_software\drivers\soft\nrf2401.h)(0x64B39D55)
 F (.\fly_sky_software\inv_mpu_dmp_motion_driver.c)(0x6460A036)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Device/ST/STM32F1xx/Include -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Include -I .\fly_sky_software -I .\fly_sky_software\system -I .\fly_sky_software\common -I .\fly_sky_software\drivers\soft -I .\fly_sky_software\control-I.\RTE\_fly_sky_software-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB -DSTM32F103_DMP -DMPU6050 -DEMPL -DMPL_LOG_NDEBUG="1"-o fly_sky_software\inv_mpu_dmp_motion_driver.o --omf_browse fly_sky_software\inv_mpu_dmp_motion_driver.crf --depend fly_sky_software\inv_mpu_dmp_motion_driver.d)
@@ -1131,7 +1131,7 @@ I (.\fly_sky_software\control\data.h)(0x64A5A5EA)
 I (.\fly_sky_software\control\positionEstimate.h)(0x64A1BDD3)
 I (.\fly_sky_software\common\maths.h)(0x64A1AEE8)
 I (.\fly_sky_software\drivers\soft\bmp280.h)(0x64B82A55)
-I (.\fly_sky_software\control\sensors.h)(0x64BD627D)
+I (.\fly_sky_software\control\sensors.h)(0x64BD66E9)
 I (.\fly_sky_software\common\structconfig.h)(0x648D6629)
 I (.\fly_sky_software\drivers\soft\nrf2401.h)(0x64B39D55)
 F (.\fly_sky_software\common\filter.c)(0x64986B16)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Device/ST/STM32F1xx/Include -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Include -I .\fly_sky_software -I .\fly_sky_software\system -I .\fly_sky_software\common -I .\fly_sky_software\drivers\soft -I .\fly_sky_software\control-I.\RTE\_fly_sky_software-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB -DSTM32F103_DMP -DMPU6050 -DEMPL -DMPL_LOG_NDEBUG="1"-o fly_sky_software\filter.o --omf_browse fly_sky_software\filter.crf --depend fly_sky_software\filter.d)
@@ -1387,7 +1387,7 @@ I (.\fly_sky_software\common\maths.h)(0x64A1AEE8)
 I (.\fly_sky_software\drivers\soft\bmp280.h)(0x64B82A55)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5CEB79E2)
-I (.\fly_sky_software\control\sensors.h)(0x64BD627D)
+I (.\fly_sky_software\control\sensors.h)(0x64BD66E9)
 I (.\fly_sky_software\common\structconfig.h)(0x648D6629)
 I (.\fly_sky_software\drivers\soft\nrf2401.h)(0x64B39D55)
 I (fly_sky_software\control\innerControl.h)(0x6499CF81)
@@ -1472,13 +1472,13 @@ I (.\fly_sky_software\common\maths.h)(0x64A1AEE8)
 I (.\fly_sky_software\drivers\soft\bmp280.h)(0x64B82A55)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5CEB79E2)
-I (.\fly_sky_software\control\sensors.h)(0x64BD627D)
+I (.\fly_sky_software\control\sensors.h)(0x64BD66E9)
 I (.\fly_sky_software\common\structconfig.h)(0x648D6629)
 I (.\fly_sky_software\drivers\soft\nrf2401.h)(0x64B39D55)
 I (fly_sky_software\control\outterControl.h)(0x6499CDEA)
 I (fly_sky_software\control\pid.h)(0x6499CA07)
-F (.\fly_sky_software\control\sensors.c)(0x64BD614F)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Device/ST/STM32F1xx/Include -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Include -I .\fly_sky_software -I .\fly_sky_software\system -I .\fly_sky_software\common -I .\fly_sky_software\drivers\soft -I .\fly_sky_software\control-I.\RTE\_fly_sky_software-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB -DSTM32F103_DMP -DMPU6050 -DEMPL -DMPL_LOG_NDEBUG="1"-o fly_sky_software\sensors.o --omf_browse fly_sky_software\sensors.crf --depend fly_sky_software\sensors.d)
-I (fly_sky_software\control\sensors.h)(0x64BD627D)
+F (.\fly_sky_software\control\sensors.c)(0x64BD6A49)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Device/ST/STM32F1xx/Include -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Include -I .\fly_sky_software -I .\fly_sky_software\system -I .\fly_sky_software\common -I .\fly_sky_software\drivers\soft -I .\fly_sky_software\control-I.\RTE\_fly_sky_software-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB -DSTM32F103_DMP -DMPU6050 -DEMPL -DMPL_LOG_NDEBUG="1"-o fly_sky_software\sensors.o --omf_browse fly_sky_software\sensors.crf --depend fly_sky_software\sensors.d)
+I (fly_sky_software\control\sensors.h)(0x64BD66E9)
 I (../Core/Inc/main.h)(0x64A45933)
 I (C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x63B33312)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x64968C42)
@@ -1526,7 +1526,7 @@ I (.\fly_sky_software\common\maths.h)(0x64A1AEE8)
 I (.\fly_sky_software\drivers\soft\bmp280.h)(0x64B82A55)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5CEB79E2)
-I (.\fly_sky_software\control\sensors.h)(0x64BD627D)
+I (.\fly_sky_software\control\sensors.h)(0x64BD66E9)
 I (.\fly_sky_software\common\structconfig.h)(0x648D6629)
 I (.\fly_sky_software\drivers\soft\nrf2401.h)(0x64B39D55)
 F (.\fly_sky_software\system\tim.c)(0x64BCD3AF)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Device/ST/STM32F1xx/Include -I C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/CMSIS/Include -I .\fly_sky_software -I .\fly_sky_software\system -I .\fly_sky_software\common -I .\fly_sky_software\drivers\soft -I .\fly_sky_software\control-I.\RTE\_fly_sky_software-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB -DSTM32F103_DMP -DMPU6050 -DEMPL -DMPL_LOG_NDEBUG="1"-o fly_sky_software\tim.o --omf_browse fly_sky_software\tim.crf --depend fly_sky_software\tim.d)
@@ -1577,6 +1577,6 @@ I (.\fly_sky_software\common\maths.h)(0x64A1AEE8)
 I (.\fly_sky_software\drivers\soft\bmp280.h)(0x64B82A55)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5CEB79E2)
-I (.\fly_sky_software\control\sensors.h)(0x64BD627D)
+I (.\fly_sky_software\control\sensors.h)(0x64BD66E9)
 I (.\fly_sky_software\common\structconfig.h)(0x648D6629)
 I (.\fly_sky_software\drivers\soft\nrf2401.h)(0x64B39D55)

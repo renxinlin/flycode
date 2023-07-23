@@ -1,6 +1,5 @@
 #include "sensors.h"
 
-
 typedef struct
 {
 	Axis3f     bias;
@@ -9,7 +8,6 @@ typedef struct
 	Axis3i16*  bufHead;
 	Axis3i16   buffer[SENSORS_NBR_OF_BIAS_SAMPLES];
 }BiasObj;
-
 
 BiasObj	gyroBiasRunning;
 // 暂时认为bmp280使用硬件滤波
@@ -21,7 +19,6 @@ static Axis3f  gyroBias;
 
 static float accScaleSum = 0;
 static float accScale = 1;
-
 static uint8_t gyroBiasFound = 0;
 sensor_data sensors;
 
@@ -44,8 +41,9 @@ void sensorsInit(){
 		lpf2pInit(&gyroLpf[1], 1000, GYRO_LPF_CUTOFF_FREQ);
 		lpf2pInit(&gyroLpf[2], 1000, GYRO_LPF_CUTOFF_FREQ);
 		lpf2pInit(&accLpf[0],  1000, ACCEL_LPF_CUTOFF_FREQ);
-		lpf2pInit(&accLpf[0],  1000, ACCEL_LPF_CUTOFF_FREQ);
-		lpf2pInit(&accLpf[0],  1000, ACCEL_LPF_CUTOFF_FREQ);
+		lpf2pInit(&accLpf[1],  1000, ACCEL_LPF_CUTOFF_FREQ);
+		lpf2pInit(&accLpf[2],  1000, ACCEL_LPF_CUTOFF_FREQ);
+		// todo 陀螺仪偏置初始化
 }
 
 void sensorsDataGet(void)
@@ -55,10 +53,10 @@ void sensorsDataGet(void)
 		// 读取mpu 加速度与角速度
 		MPU_Get_Accelerometer(&gyroRaw.x,&gyroRaw.y,&gyroRaw.z);
 		MPU_Get_Gyroscope(&accRaw.x,&accRaw.y,&accRaw.z);
-
-		gyroBiasFound = processGyroBias(gyroRaw.x, gyroRaw.y, gyroRaw.z, &gyroBias);
 				printf("mpudataof %u,%u,%u,%u,%u,%u \r\n",gyroRaw.x,gyroRaw.y,
 		gyroRaw.z,accRaw.x,accRaw.y,accRaw.z);
+		gyroBiasFound = processGyroBias(gyroRaw.x, gyroRaw.y, gyroRaw.z, &gyroBias);
+
 		if (gyroBiasFound)
 		{
 			// 陀螺仪偏置
