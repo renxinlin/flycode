@@ -71,7 +71,8 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE END 1 */
-		float pressure, temperature, asl;
+		// float pressure, temperature, asl;
+		int32_t pressure, temperature, asl;
 		double pressure1, temperature1, asl1;
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -92,15 +93,8 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART1_UART_Init();
-	HAL_GPIO_WritePin(led1_GPIO_Port, led1_Pin,GPIO_PIN_SET);
-	HAL_Delay(500);
-	HAL_GPIO_WritePin(led1_GPIO_Port, led1_Pin,GPIO_PIN_RESET);
-	HAL_Delay(500);
-
   MX_TIM1_Init();
 	MX_TIM2_Init();
-	// __HAL_TIM_SET_COMPARE修改电机占空比
-
 	usTickInit();
 	MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
@@ -111,34 +105,28 @@ int main(void)
 			printf("start mpu error");
 	}
 	// FBM320_Init();
-	printf("send data start");
-  bmp280Init();
-	 //NRF24l01_Init( );		// 检测nRF24L01	
-	
+ 	BMP280_Init();
+	NRF24l01_Init( );		// 检测nRF24L01	
 	SENSER_FLAG_SET(BAR_OFFSET);//校准气压计开启
-
+	uint32_t pwmValue = 0;
+	sensorsInit();
   while (1)
   {
-		HAL_Delay(1000);
 		
-		//BMP280_calc_values(&pressure1,  &temperature1,  &asl1);
-		BMP280_ReadTemperatureAndPressure(&temperature,&pressure);
-					asl=bmp280PressureToAltitude(&pressure);	/*转换成海拔*/
+		//pMW3 t1c1 pa8 4 t1c4 pa11
 
-		printf(" next IS pressure is %f temperature IS %f asl %f\r\n",pressure,temperature,asl);
-			bmp280GetData(&pressure,&temperature,&asl);
-	   printf(" pressure  is %f temp is %f and asl is %f\n", pressure,temperature,asl);
+
+		
+
+		// printf(" next IS pressure is %d temperature IS %d asl %d\r\n",pressure,temperature,asl);
+		//	bmp280GetData(&pressure,&temperature,&asl);
+	 //  printf(" pressure  is %f temp is %f and asl is %f\n", pressure,temperature,asl);
 
 		if(counter_2ms>=2){
-			counter_2ms = 0;
+			 counter_2ms = 0;
 			// 2ms任务执行
-				
-				sensorsDataGet();
-				// 转数据结构和操作上下文
-			
-				// printf("mpudata %f,%hd,%hd,%hd,%hd,%hd \r\n",sensors.acc.x,mpudata[1],mpudata[2],mpudata[4],mpudata[4],mpudata[5]);
-				printf("mpudata %f,%f,%f,%f,%f,%f \r\n",sensors.acc.x,sensors.acc.y,
-			sensors.acc.z,sensors.gyro.x,sensors.gyro.y,sensors.gyro.z);
+			sensorsDataGet();			
+		//	sensors.acc.z,sensors.gyro.x,sensors.gyro.y,sensors.gyro.z);
 			imuUpdate(sensors.acc,sensors.gyro,&self,counter_5ms);
 			
 			//
@@ -148,7 +136,7 @@ int main(void)
 				counter_5ms = 0;
 				// 气压计数据获取
 				// 5ms任务执行
-			bmp280GetData(&pressure, &temperature,  &asl);
+			BMP280_CalTemperatureAndPressureAndAltitude(&temperature, &pressure, &asl);
 			// todo 气压计
 		}
 		if(counter_10ms>=10){
@@ -162,9 +150,24 @@ int main(void)
 		if(counter_50ms>=50){
 			counter_50ms = 0;
 			// 50ms任务执行
-		 bmp280GetData(&pressure,&temperature,&asl);
-	   printf(" pressure  is %f temp is %f and asl is %f\n", pressure,temperature,asl);
 
+			pwmValue+=20;
+		if(pwmValue>=100){
+					__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, 0);
+					__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
+			
+			
+					__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, 0);
+					__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 0);
+		
+		}else{
+					__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, pwmValue);
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, pwmValue);
+			
+					__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, pwmValue);
+					__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, pwmValue);
+			 
+		}
 		 HAL_GPIO_TogglePin(led1_GPIO_Port, led1_Pin);
 		//	powerControl();
 		}

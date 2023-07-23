@@ -8,12 +8,28 @@
 
 #define M_PI_F (float)3.14159265
 
-// 这里我们实际配置取2000与16 来确保精度的准确性
-#define SENSORS_GYRO_FS_CFG      1 // MPU6500_GYRO_FS_2000
-#define SENSORS_DEG_PER_LSB_CFG   1// MPU6500_DEG_PER_LSB_2000
+#define MPU6500_GYRO_FS_250         0x00
+#define MPU6500_GYRO_FS_500         0x01
+#define MPU6500_GYRO_FS_1000        0x02
+#define MPU6500_GYRO_FS_2000        0x03
 
-#define SENSORS_ACCEL_FS_CFG     1 // MPU6500_ACCEL_FS_16	
-#define SENSORS_G_PER_LSB_CFG     1// MPU6500_G_PER_LSB_16
+
+//#define MPU6500_G_PER_LSB_2      (float)((2 * 2) / 65536.0)
+//#define MPU6500_G_PER_LSB_4      (float)((2 * 4) / 65536.0)
+//#define MPU6500_G_PER_LSB_8      (float)((2 * 8) / 65536.0)
+#define MPU6500_G_PER_LSB_16     (float)((2 * 16) / 65536.0)
+	
+//#define MPU6500_DEG_PER_LSB_250  (float)((2 * 250.0) / 65536.0)
+//#define MPU6500_DEG_PER_LSB_500  (float)((2 * 500.0) / 65536.0)
+//#define MPU6500_DEG_PER_LSB_1000 (float)((2 * 1000.0) / 65536.0)
+#define MPU6500_DEG_PER_LSB_2000 (float)((2 * 2000.0) / 65536.0)
+	
+// 这里我们实际配置取2000与16 来确保精度的准确性
+#define SENSORS_GYRO_FS_CFG       MPU6500_GYRO_FS_2000
+#define SENSORS_DEG_PER_LSB_CFG   MPU6500_DEG_PER_LSB_2000
+
+#define SENSORS_ACCEL_FS_CFG      MPU6500_ACCEL_FS_16	
+#define SENSORS_G_PER_LSB_CFG     MPU6500_G_PER_LSB_16
 
 #define SENSORS_NBR_OF_BIAS_SAMPLES		1024	/* 计算方差的采样样本个数 */
 #define GYRO_VARIANCE_BASE				4000	/* 陀螺仪零偏方差阈值 */
@@ -63,6 +79,7 @@ typedef  struct
 /**
   mpu6050 数据获取以及滤波
 */
+void sensorsInit(void);
 void sensorsDataGet(void);
 static float lpf2pApply(lpf2pData* lpfData, float sample);
 void lpf2pSetCutoffFreq(lpf2pData* lpfData, float sample_freq, float cutoff_freq);

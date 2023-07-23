@@ -1,6 +1,6 @@
 Dependencies for Project 'fly_hand', Target 'fly_hand': (DO NOT MODIFY !)
 F (startup_stm32f103xb.s)(0x64B38CAB)(--cpu Cortex-M3 -g --apcs=interwork -I.\RTE\_fly_hand-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include--pd "__UVISION_VERSION SETA 528" --pd "_RTE_ SETA 1" --pd "STM32F10X_MD SETA 1"--list startup_stm32f103xb.lst --xref -o fly_hand\startup_stm32f103xb.o --depend fly_hand\startup_stm32f103xb.d)
-F (../Core/Src/main.c)(0x64B37EFF)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../common -I ..\chipdriver-I.\RTE\_fly_hand-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o fly_hand\main.o --omf_browse fly_hand\main.crf --depend fly_hand\main.d)
+F (../Core/Src/main.c)(0x64B5858A)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../common -I ..\chipdriver-I.\RTE\_fly_hand-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o fly_hand\main.o --omf_browse fly_hand\main.crf --depend fly_hand\main.d)
 I (../Core/Inc/main.h)(0x64B38C6B)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x647F6D11)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x64B041D6)
@@ -34,6 +34,11 @@ I (../Core/Inc/adc.h)(0x64B041D4)
 I (../Core/Inc/spi.h)(0x64B041D5)
 I (../Core/Inc/usart.h)(0x64B041D5)
 I (../Core/Inc/gpio.h)(0x64B398FD)
+I (../common/delay.h)(0x64B389A4)
+I (..\chipdriver\oled.h)(0x64B584A6)
+I (..\chipdriver\iic.h)(0x64B3A05D)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5CEB79E2)
+I (..\chipdriver\nrf24l01.h)(0x64B6D8AE)
 F (../Core/Src/gpio.c)(0x64B398FC)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../common -I ..\chipdriver-I.\RTE\_fly_hand-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o fly_hand\gpio.o --omf_browse fly_hand\gpio.crf --depend fly_hand\gpio.d)
 I (../Core/Inc/gpio.h)(0x64B398FD)
 I (../Core/Inc/main.h)(0x64B38C6B)
@@ -127,7 +132,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x647F6D11)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x647F6D11)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x647F6D11)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x647F6D11)
-F (../Core/Src/usart.c)(0x64B041D5)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../common -I ..\chipdriver-I.\RTE\_fly_hand-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o fly_hand\usart.o --omf_browse fly_hand\usart.crf --depend fly_hand\usart.d)
+F (../Core/Src/usart.c)(0x64B5827A)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../common -I ..\chipdriver-I.\RTE\_fly_hand-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o fly_hand\usart.o --omf_browse fly_hand\usart.crf --depend fly_hand\usart.d)
 I (../Core/Inc/usart.h)(0x64B041D5)
 I (../Core/Inc/main.h)(0x64B38C6B)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x647F6D11)
@@ -158,6 +163,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x647F6D11)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x647F6D11)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x647F6D11)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x647F6D11)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5CEB79E2)
 F (../Core/Src/stm32f1xx_it.c)(0x64AEDC2E)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../common -I ..\chipdriver-I.\RTE\_fly_hand-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o fly_hand\stm32f1xx_it.o --omf_browse fly_hand\stm32f1xx_it.crf --depend fly_hand\stm32f1xx_it.d)
 I (../Core/Inc/main.h)(0x64B38C6B)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x647F6D11)
@@ -219,6 +225,41 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x647F6D11)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x647F6D11)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x647F6D11)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x647F6D11)
+F (..\Core\Src\command.c)(0x64B6D8A1)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../common -I ..\chipdriver-I.\RTE\_fly_hand-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o fly_hand\command.o --omf_browse fly_hand\command.crf --depend fly_hand\command.d)
+I (../Core/Inc/command.h)(0x64B6D3D0)
+I (../common/data.h)(0x64B6D862)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x647F6D11)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x647F6D11)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x647F6D04)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x645FBC5B)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x647F6D04)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x647F6D04)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x647F6D04)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x647F6D11)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x64B041D6)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x647F6D11)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc_ex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x647F6D11)
+I (..\chipdriver\nrf24l01.h)(0x64B6D8AE)
+I (../common/delay.h)(0x64B389A4)
+I (../Core/Inc/adc.h)(0x64B041D4)
+I (../Core/Inc/main.h)(0x64B38C6B)
 F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c)(0x647F6D11)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../common -I ..\chipdriver-I.\RTE\_fly_hand-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o fly_hand\stm32f1xx_hal_gpio_ex.o --omf_browse fly_hand\stm32f1xx_hal_gpio_ex.crf --depend fly_hand\stm32f1xx_hal_gpio_ex.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x647F6D11)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x64B041D6)
@@ -772,8 +813,8 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x647F6D11)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x647F6D11)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x647F6D11)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5CEB79E2)
-F (..\chipdriver\nrf24l01.c)(0x64B39A4F)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../common -I ..\chipdriver-I.\RTE\_fly_hand-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o fly_hand\nrf24l01.o --omf_browse fly_hand\nrf24l01.crf --depend fly_hand\nrf24l01.d)
-I (..\chipdriver\nrf24l01.h)(0x64B39AE1)
+F (..\common\data.c)(0x64B6D878)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../common -I ..\chipdriver-I.\RTE\_fly_hand-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o fly_hand\data.o --omf_browse fly_hand\data.crf --depend fly_hand\data.d)
+I (..\common\data.h)(0x64B6D862)
 I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x647F6D11)
 I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x647F6D11)
 I (../Drivers/CMSIS/Include/core_cm3.h)(0x647F6D04)
@@ -802,7 +843,102 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x647F6D11)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x647F6D11)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x647F6D11)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x647F6D11)
+F (..\chipdriver\nrf24l01.c)(0x64B6D79B)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../common -I ..\chipdriver-I.\RTE\_fly_hand-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o fly_hand\nrf24l01.o --omf_browse fly_hand\nrf24l01.crf --depend fly_hand\nrf24l01.d)
+I (..\chipdriver\nrf24l01.h)(0x64B6D8AE)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x647F6D11)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x647F6D11)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x647F6D04)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x645FBC5B)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x647F6D04)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x647F6D04)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x647F6D04)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x647F6D11)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x64B041D6)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x647F6D11)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc_ex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x647F6D11)
+I (../common/delay.h)(0x64B389A4)
 I (../Core/Inc/spi.h)(0x64B041D5)
 I (../Core/Inc/main.h)(0x64B38C6B)
-I (../common/data.h)(0x64B39B31)
-F (..\chipdriver\iic.c)(0x64B39EB3)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../common -I ..\chipdriver-I.\RTE\_fly_hand-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o fly_hand\iic.o --omf_browse fly_hand\iic.crf --depend fly_hand\iic.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5CEB79E2)
+I (../common/data.h)(0x64B6D862)
+F (..\chipdriver\iic.c)(0x64B3A050)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../common -I ..\chipdriver-I.\RTE\_fly_hand-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o fly_hand\iic.o --omf_browse fly_hand\iic.crf --depend fly_hand\iic.d)
+I (..\chipdriver\iic.h)(0x64B3A05D)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x647F6D11)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x64B041D6)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x647F6D11)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x647F6D11)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x647F6D11)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x647F6D04)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x645FBC5B)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x647F6D04)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x647F6D04)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x647F6D04)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x647F6D11)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc_ex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x647F6D11)
+F (..\chipdriver\oled.c)(0x64B58532)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../common -I ..\chipdriver-I.\RTE\_fly_hand-IC:\Users\mac\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\CMSIS\Core\Include-IC:\Users\mac\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="528" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o fly_hand\oled.o --omf_browse fly_hand\oled.crf --depend fly_hand\oled.d)
+I (..\chipdriver\oled.h)(0x64B584A6)
+I (..\chipdriver\iic.h)(0x64B3A05D)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x647F6D11)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x64B041D6)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x647F6D11)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x647F6D11)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x647F6D11)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x647F6D04)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x645FBC5B)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x647F6D04)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x647F6D04)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x647F6D04)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x647F6D11)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc_ex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x647F6D11)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x647F6D11)
+I (../common/delay.h)(0x64B389A4)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5CEB79E2)
+I (..\chipdriver\oledfont.h)(0x5E14019B)

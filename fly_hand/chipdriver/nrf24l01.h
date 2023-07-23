@@ -2,6 +2,7 @@
 #define _NRF24L01_H
 
 #include "stm32f1xx.h"
+#include "delay.h"
 
 /******* NRF24L01ÃüÁî *********/
 #define R_REGISTER   0X00//¶ÁÅäÖÃ¼Ä´æÆ÷

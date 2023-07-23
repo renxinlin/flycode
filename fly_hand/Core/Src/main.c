@@ -23,6 +23,8 @@
 #include "usart.h"
 #include "gpio.h"
 #include "delay.h"
+#include "oled.h"
+#include "nrf24l01.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -93,6 +95,9 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   usTickInit();
+	OLED_Init();
+	NRF24l01_Init();
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */

@@ -33,3 +33,10 @@ fly_hand\main.o: ../Core/Inc/adc.h
 fly_hand\main.o: ../Core/Inc/spi.h
 fly_hand\main.o: ../Core/Inc/usart.h
 fly_hand\main.o: ../Core/Inc/gpio.h
+fly_hand\main.o: ../common/delay.h
+fly_hand\main.o: ..\chipdriver\oled.h
+fly_hand\main.o: ..\chipdriver\iic.h
+fly_hand\main.o: ../common/delay.h
+fly_hand\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+fly_hand\main.o: ..\chipdriver\nrf24l01.h
+fly_hand\main.o: ../common/delay.h

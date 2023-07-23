@@ -10,6 +10,7 @@
 ****************************************************************************************/
 #include "nrf24l01.h"
 #include "spi.h"
+#include "stdio.h"
 #include "data.h"
 /************************************************************************
 *代码移植修改区
@@ -55,6 +56,7 @@ void Remote_Data_ReceiveAnalysis(void);
 void floatToBytes(float value, uint8_t* byteArray, uint32_t startIndex) ;
 
 float bytesToFloat(uint8_t* byteArray, uint32_t startIndex) ;
+void Remote_Data_Event(void);
 /*****************************************************************************
 *函  数：void NRF24l01_Init(void)
 *功  能：NRF引脚GPIO初始化
@@ -327,7 +329,7 @@ void EXTI2_IRQHandler(void)
 
 			// 遥控器数据处理
 			Remote_Data_ReceiveAnalysis();
-
+			Remote_Data_Event();
 			//printf("Receive OK!!!!\r\n");	
 		}
 		/* 达到最大重发次数中断  MAX_TX */
@@ -345,6 +347,8 @@ void EXTI2_IRQHandler(void)
 	}
 }
 
+void Remote_Data_Event(void){
+}
 
 void Remote_Data_ReceiveAnalysis(void)
 {

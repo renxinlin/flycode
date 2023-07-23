@@ -1,52 +1,96 @@
 #ifndef __BMP280_H
 #define __BMP280_H
-#include "stm32f1xx.h"
- 
 
-#define BMP280_I2C_ADDR					(0x76)
-#define BMP280_DEFAULT_CHIP_ID			(0x58)
+#include "main.h"
+#include "math.h"
+#include "string.h"
+#include "iic.h"
+#include "delay.h"
+#include "stdio.h"
+/*
+ *  BMP280 register address
+ */
+#define BMP280_REGISTER_DIG_T1      0x88
+#define BMP280_REGISTER_DIG_T2      0x8A
+#define BMP280_REGISTER_DIG_T3      0x8C
 
-#define BMP280_CHIP_ID					(0xD0)  /* Chip ID Register */
-#define BMP280_RST_REG					(0xE0)  /* Softreset Register */
-#define BMP280_STAT_REG					(0xF3)  /* Status Register */
-#define BMP280_CTRL_MEAS_REG			(0xF4)  /* Ctrl Measure Register */
-#define BMP280_CONFIG_REG				(0xF5)  /* Configuration Register */
-#define BMP280_PRESSURE_MSB_REG			(0xF7)  /* Pressure MSB Register */
-#define BMP280_PRESSURE_LSB_REG			(0xF8)  /* Pressure LSB Register */
-#define BMP280_PRESSURE_XLSB_REG		(0xF9)  /* Pressure XLSB Register */
-#define BMP280_TEMPERATURE_MSB_REG		(0xFA)  /* Temperature MSB Reg */
-#define BMP280_TEMPERATURE_LSB_REG		(0xFB)  /* Temperature LSB Reg */
-#define BMP280_TEMPERATURE_XLSB_REG		(0xFC)  /* Temperature XLSB Reg */
+#define BMP280_REGISTER_DIG_P1      0x8E
+#define BMP280_REGISTER_DIG_P2      0x90
+#define BMP280_REGISTER_DIG_P3      0x92
+#define BMP280_REGISTER_DIG_P4      0x94
+#define BMP280_REGISTER_DIG_P5      0x96
+#define BMP280_REGISTER_DIG_P6      0x98
+#define BMP280_REGISTER_DIG_P7      0x9A
+#define BMP280_REGISTER_DIG_P8      0x9C
+#define BMP280_REGISTER_DIG_P9      0x9E
 
-#define BMP280_SLEEP_MODE				(0x00)
-#define BMP280_FORCED_MODE				(0x01)
-#define BMP280_NORMAL_MODE				(0x03)
+#define BMP280_REGISTER_CHIPID      0xD0
+#define BMP280_REGISTER_VERSION     0xD1
+#define BMP280_REGISTER_SOFTRESET   0xE0
+#define BMP280_REGISTER_STATUS      0xF3
+#define BMP280_REGISTER_CONTROL     0xF4
+#define BMP280_REGISTER_CONFIG      0xF5
 
-#define BMP280_TEMPERATURE_CALIB_DIG_T1_LSB_REG             (0x88)
-#define BMP280_PRESSURE_TEMPERATURE_CALIB_DATA_LENGTH       (24)
-#define BMP280_DATA_FRAME_SIZE			(6)
+#define BMP280_TEMP_XLSB_REG        0xFC	    /*Temperature XLSB Register */
+#define BMP280_TEMP_LSB_REG         0xFB        /*Temperature LSB Register  */
+#define BMP280_TEMP_MSB_REG         0xFA        /*Temperature LSB Register  */
+#define BMP280_PRESS_XLSB_REG       0xF9		/*Pressure XLSB  Register   */
+#define BMP280_PRESS_LSB_REG        0xF8		/*Pressure LSB Register     */
+#define BMP280_PRESS_MSB_REG        0xF7		/*Pressure MSB Register     */
 
-#define BMP280_OVERSAMP_SKIPPED			(0x00)
-#define BMP280_OVERSAMP_1X				(0x01)
-#define BMP280_OVERSAMP_2X				(0x02)
-#define BMP280_OVERSAMP_4X				(0x03)
-#define BMP280_OVERSAMP_8X				(0x04)
-#define BMP280_OVERSAMP_16X				(0x05)
-#define BMP280_RESET_VALUE         0xB6        
+/*calibration parameters */
+#define BMP280_DIG_T1_LSB_REG                0x88
+#define BMP280_DIG_T1_MSB_REG                0x89
+#define BMP280_DIG_T2_LSB_REG                0x8A
+#define BMP280_DIG_T2_MSB_REG                0x8B
+#define BMP280_DIG_T3_LSB_REG                0x8C
+#define BMP280_DIG_T3_MSB_REG                0x8D
+#define BMP280_DIG_P1_LSB_REG                0x8E
+#define BMP280_DIG_P1_MSB_REG                0x8F
+#define BMP280_DIG_P2_LSB_REG                0x90
+#define BMP280_DIG_P2_MSB_REG                0x91
+#define BMP280_DIG_P3_LSB_REG                0x92
+#define BMP280_DIG_P3_MSB_REG                0x93
+#define BMP280_DIG_P4_LSB_REG                0x94
+#define BMP280_DIG_P4_MSB_REG                0x95
+#define BMP280_DIG_P5_LSB_REG                0x96
+#define BMP280_DIG_P5_MSB_REG                0x97
+#define BMP280_DIG_P6_LSB_REG                0x98
+#define BMP280_DIG_P6_MSB_REG                0x99
+#define BMP280_DIG_P7_LSB_REG                0x9A
+#define BMP280_DIG_P7_MSB_REG                0x9B
+#define BMP280_DIG_P8_LSB_REG                0x9C
+#define BMP280_DIG_P8_MSB_REG                0x9D
+#define BMP280_DIG_P9_LSB_REG                0x9E
+#define BMP280_DIG_P9_MSB_REG                0x9F
 
+typedef struct {
+	uint16_t T1; 		/*<calibration T1 data*/
+	int16_t T2;  	 	/*<calibration T2 data*/
+	int16_t T3;  		/*<calibration T3 data*/
+	uint16_t P1;  	    /*<calibration P1 data*/
+	int16_t P2;  		/*<calibration P2 data*/
+	int16_t P3;  		/*<calibration P3 data*/
+	int16_t P4;  		/*<calibration P4 data*/
+	int16_t P5;  		/*<calibration P5 data*/
+	int16_t P6;  		/*<calibration P6 data*/
+	int16_t P7;  		/*<calibration P7 data*/
+	int16_t P8;  		/*<calibration P8 data*/
+	int16_t P9;			/*<calibration P9 data*/
+	int32_t T_fine;	/*<calibration t_fine data*/
+} BMP280_HandleTypeDef;
 
-uint8_t bmp280Init(void);
-void bmp280GetData(float* pressure, float* temperature, float* asl);
+typedef struct
+{
+	uint8_t Index;
+	int32_t AvgBuffer[8];
+} BMP280_AvgTypeDef;
 
-uint32_t bmp280CompensateT(uint32_t adcT);
-uint32_t bmp280CompensateP(uint32_t adcP);
-void pressureFilter(float* in, float* out);/*限幅平均滤波法*/
-float bmp280PressureToAltitude(float* pressure/*, float* groundPressure, float* groundTemp*/);
-uint8_t IIC_Read_Len(uint8_t addr,uint8_t reg,uint8_t len,uint8_t *buf);
-uint8_t IIC_Write_Len(uint8_t addr,uint8_t reg,uint8_t len,uint8_t *buf);
-float bmp280_compensate_temperature(uint32_t adc_T);
-void BMP280_calc_values(double* pressure, double* temperature, double* asl);
-void BMP280_ReadTemperatureAndPressure(float *temperature, float *pressure);
-#endif
+#define MSLP     101325          // Mean Sea Level Pressure = 1013.25 hPA (1hPa = 100Pa = 1mbar)
+#define ALTITUDE_OFFSET          10000
 
-
+void I2C_Init(void);
+void BMP280_Init();
+void BMP280_CalTemperatureAndPressureAndAltitude(int32_t *temperature, int32_t *pressure, int32_t *Altitude);
+void py_f2s4printf(char * stra, float x, uint8_t flen);
+#endif /* __BMP280_H */

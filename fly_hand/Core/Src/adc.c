@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "adc.h"
+#include "command.h"
 
 /* USER CODE BEGIN 0 */
 
@@ -125,4 +126,43 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 
 /* USER CODE BEGIN 1 */
 
+
+/*ADC值转换成飞控数据百分比*/
+void ADCtoFlyDataPercent(control_data *percent)
+{
+	uint16_t adcValue;
+	
+	//THRUST 300 200 100
+	adcValue = getAdcValue(ADC_THRUST) - jsParam->thrust.mid;
+	adcValue = deadband(adcValue,MID_DB_THRUST);
+	if(adcValue>=0)
+		// 去除摇杆中间死区和上下量程死区
+		percent->thrust = (float)adcValue/(jsParam->thrust.range_pos-MID_DB_THRUST-DB_RANGE);
+	else
+		percent->thrust = (float)adcValue/(jsParam->thrust.range_neg-MID_DB_THRUST-DB_RANGE);
+	
+	//ROLL
+	adcValue = getAdcValue(ADC_ROLL) - jsParam->roll.mid;
+	adcValue = deadband(adcValue, MID_DB_ROLL);
+	if(adcValue >= 0)
+		percent->roll = (float)adcValue/(jsParam->roll.range_pos-MID_DB_ROLL-DB_RANGE);
+	else
+		percent->roll = (float)adcValue/(jsParam->roll.range_neg-MID_DB_ROLL-DB_RANGE);
+	
+	//PITCH
+	adcValue = getAdcValue(ADC_PITCH) - jsParam->pitch.mid;
+	adcValue = deadband(adcValue, MID_DB_PITCH);
+	if(adcValue >= 0)
+		percent->pitch = (float)adcValue/(jsParam->pitch.range_pos-MID_DB_PITCH-DB_RANGE);
+	else
+		percent->pitch = (float)adcValue/(jsParam->pitch.range_neg-MID_DB_PITCH-DB_RANGE);
+	
+	//YAW
+	adcValue = getAdcValue(ADC_YAW) - jsParam->yaw.mid;
+	adcValue = deadband(adcValue, MID_DB_YAW);
+	if(adcValue >= 0)
+		percent->yaw = (float)adcValue/(jsParam->yaw.range_pos-MID_DB_YAW-DB_RANGE);
+	else
+		percent->yaw = (float)adcValue/(jsParam->yaw.range_neg-MID_DB_YAW-DB_RANGE);
+}
 /* USER CODE END 1 */

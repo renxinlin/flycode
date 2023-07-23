@@ -39,6 +39,7 @@ static void sensorsAddBiasValue(BiasObj* bias, int16_t x, int16_t y, int16_t z);
 
 
 void sensorsInit(){
+	// 采样频率 和截止频率
 		lpf2pInit(&gyroLpf[0], 1000, GYRO_LPF_CUTOFF_FREQ);
 		lpf2pInit(&gyroLpf[1], 1000, GYRO_LPF_CUTOFF_FREQ);
 		lpf2pInit(&gyroLpf[2], 1000, GYRO_LPF_CUTOFF_FREQ);
@@ -51,31 +52,36 @@ void sensorsDataGet(void)
 {
 
 	
-		// 读取mpu 读取bmp280
-		
-			MPU_Get_Gyroscope(&gyroRaw.x,&gyroRaw.y,&gyroRaw.z);
-			MPU_Get_Accelerometer(&accRaw.x,&accRaw.y,&accRaw.z);
-			/*处理原始数据，并放入数据队列中*/
-			gyroRaw.x -=  gyroBias.x;
-			gyroRaw.y -=  gyroBias.y;
-			gyroRaw.z -=  gyroBias.z;
-		int16_t gx2 = accRaw.x;	
+		// 读取mpu 加速度与角速度
+		MPU_Get_Accelerometer(&gyroRaw.x,&gyroRaw.y,&gyroRaw.z);
+		MPU_Get_Gyroscope(&accRaw.x,&accRaw.y,&accRaw.z);
+
 		gyroBiasFound = processGyroBias(gyroRaw.x, gyroRaw.y, gyroRaw.z, &gyroBias);
-		
+				printf("mpudataof %u,%u,%u,%u,%u,%u \r\n",gyroRaw.x,gyroRaw.y,
+		gyroRaw.z,accRaw.x,accRaw.y,accRaw.z);
 		if (gyroBiasFound)
 		{
+			// 陀螺仪偏置
+			printf("=============finish  bias process");
 			processAccScale(accRaw.x, accRaw.y, accRaw.z);	/*计算accScale*/
+		}else{
+			printf("=============not  bias process");
 		}
 		
 		sensors.gyro.x = -(gyroRaw.x - gyroBias.x) * SENSORS_DEG_PER_LSB_CFG;	/*单位 °/s */
 		sensors.gyro.y =  (gyroRaw.y - gyroBias.y) * SENSORS_DEG_PER_LSB_CFG;
 		sensors.gyro.z =  (gyroRaw.z - gyroBias.z) * SENSORS_DEG_PER_LSB_CFG;
+		
+	//				printf("mpudata  applyGyroLpf before %f,%f,%f,%f,%f,%f \r\n",sensors.acc.x,sensors.acc.y,
+	//		sensors.acc.z,sensors.gyro.x,sensors.gyro.y,sensors.gyro.z);
 		applyGyroLpf(gyroLpf, &sensors.gyro);	
 
 		sensors.acc.x = -(accRaw.x) * SENSORS_G_PER_LSB_CFG / accScale;	/*单位 g(9.8m/s^2)*/
 		sensors.acc.y =  (accRaw.y) * SENSORS_G_PER_LSB_CFG / accScale;	/*重力加速度缩放因子accScale 根据样本计算得出*/
 		sensors.acc.z =  (accRaw.z) * SENSORS_G_PER_LSB_CFG / accScale;
 		applyAccLpf(accLpf, &sensors.acc);
+		printf("mpudata applyGyroLpf after %f,%f,%f,%f,%f,%f \r\n",sensors.acc.x,sensors.acc.y,
+			sensors.acc.z,sensors.gyro.x,sensors.gyro.y,sensors.gyro.z);
 	
 }
 

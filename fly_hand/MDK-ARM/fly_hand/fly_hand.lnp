@@ -7,6 +7,7 @@
 "fly_hand\usart.o"
 "fly_hand\stm32f1xx_it.o"
 "fly_hand\stm32f1xx_hal_msp.o"
+"fly_hand\command.o"
 "fly_hand\stm32f1xx_hal_gpio_ex.o"
 "fly_hand\stm32f1xx_hal_adc.o"
 "fly_hand\stm32f1xx_hal_adc_ex.o"
@@ -26,6 +27,10 @@
 "fly_hand\stm32f1xx_hal_uart.o"
 "fly_hand\system_stm32f1xx.o"
 "fly_hand\delay.o"
+"fly_hand\data.o"
+"fly_hand\nrf24l01.o"
+"fly_hand\iic.o"
+"fly_hand\oled.o"
 --strict --scatter "fly_hand\fly_hand.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

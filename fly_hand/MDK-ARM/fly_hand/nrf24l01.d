@@ -29,6 +29,8 @@ fly_hand\nrf24l01.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.
 fly_hand\nrf24l01.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 fly_hand\nrf24l01.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h
 fly_hand\nrf24l01.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+fly_hand\nrf24l01.o: ../common/delay.h
 fly_hand\nrf24l01.o: ../Core/Inc/spi.h
 fly_hand\nrf24l01.o: ../Core/Inc/main.h
+fly_hand\nrf24l01.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 fly_hand\nrf24l01.o: ../common/data.h

@@ -53,6 +53,7 @@ fly_sky_software\inv_mpu.o: .\fly_sky_software\control\positionEstimate.h
 fly_sky_software\inv_mpu.o: .\fly_sky_software\control\imu.h
 fly_sky_software\inv_mpu.o: .\fly_sky_software\common\maths.h
 fly_sky_software\inv_mpu.o: .\fly_sky_software\drivers\soft\bmp280.h
+fly_sky_software\inv_mpu.o: .\fly_sky_software\system\delay.h
 fly_sky_software\inv_mpu.o: .\fly_sky_software\control\sensors.h
 fly_sky_software\inv_mpu.o: .\fly_sky_software\common\structconfig.h
 fly_sky_software\inv_mpu.o: .\fly_sky_software\drivers\soft\nrf2401.h

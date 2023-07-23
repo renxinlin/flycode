@@ -19,9 +19,26 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "usart.h"
+#include "stdio.h"
 
 /* USER CODE BEGIN 0 */
+#define MAX_USART_BUFFER 1
+#define LENGTH 200
+#ifdef __GNUC__
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+#else
+#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+#endif
+PUTCHAR_PROTOTYPE
+{
+	HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);//注意把&huart1改为自己的stm32使用的串口号
+  while(HAL_UART_GetState(&huart1) == HAL_UART_STATE_BUSY_TX);//检测UART发送结束				HAL_Delay(500);
+	return ch;
+}
 
+uint8_t irq_buffer[MAX_USART_BUFFER];
+uint8_t buffer[LENGTH];
+uint8_t bufferIndex = 0;		//接收缓冲计数
 /* USER CODE END 0 */
 
 UART_HandleTypeDef huart1;
@@ -51,6 +68,7 @@ void MX_USART1_UART_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN USART1_Init 2 */
+	HAL_UART_Receive_IT(&huart1, irq_buffer, 1);
 
   /* USER CODE END USART1_Init 2 */
 
@@ -84,7 +102,9 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /* USER CODE BEGIN USART1_MspInit 1 */
-
+    HAL_NVIC_SetPriority(USART1_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(USART1_IRQn);
+		HAL_UART_Receive_IT(&huart1, (uint8_t *)&irq_buffer, 1);
   /* USER CODE END USART1_MspInit 1 */
   }
 }
@@ -107,6 +127,7 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
     HAL_GPIO_DeInit(GPIOA, GPIO_PIN_9|GPIO_PIN_10);
 
   /* USER CODE BEGIN USART1_MspDeInit 1 */
+    HAL_NVIC_DisableIRQ(USART1_IRQn);
 
   /* USER CODE END USART1_MspDeInit 1 */
   }
@@ -114,4 +135,23 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 
 /* USER CODE BEGIN 1 */
 
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if(bufferIndex >= 255){
+		//溢出判断
+		bufferIndex = 0;
+		HAL_UART_Transmit(&huart1, (uint8_t *)"数据溢出", 10,0xFFFF); 	
+	}
+	else{
+		buffer[bufferIndex++] = irq_buffer[0];   //接收数据转存
+		if((buffer[bufferIndex-1] == 0x0A)&&(buffer[bufferIndex-2] == 0x0D)) //判断结束位
+		{
+			HAL_UART_Transmit(&huart1, (uint8_t *)&buffer, bufferIndex,0xFFFF); //将收到的信息发送出去
+            while(HAL_UART_GetState(&huart1) == HAL_UART_STATE_BUSY_TX);//检测UART发送结束
+			bufferIndex = 0;
+		}
+	}
+	// 重新使能中断
+	HAL_UART_Receive_IT(&huart1, irq_buffer, 1);
+}
 /* USER CODE END 1 */
