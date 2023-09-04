@@ -49,9 +49,16 @@ void stateControlInit(void)
 }
 
 
-
-void stateControl(control_data *control,  self_data *self, expect_data *setpoint, const uint32_t tick)
+ 
+void stateControl(control_data *control, sensor_data *sensors, self_data *self, expect_data *setpoint, const uint32_t tick)
 {	
+	// 最终的pid控制
+	// 传感器数据
+	//printf(" sensors data is %f ,%f,%f",sensors->gyro.x,sensors->gyro.y,sensors->gyro.z );
+	// 四轴自身数据
+	//printf(" self data is %f ,%f,%f",self->attitude.x,self->attitude.y,self->attitude.z);
+	// 期望的命令数据
+	/**
 	if (RATE_DO_EXECUTE(POSITION_PID_RATE, tick))
 	{
 		if (setpoint->mode.x != modeDisable || setpoint->mode.y != modeDisable || setpoint->mode.z != modeDisable)
@@ -59,9 +66,9 @@ void stateControl(control_data *control,  self_data *self, expect_data *setpoint
 			positionController(&actualThrust, &attitudeDesired, setpoint, self, POSITION_PID_DT);
 		}
 	}
-	
+*/
 	//角度环（外环）
-	if (RATE_DO_EXECUTE(ANGEL_PID_RATE, tick))
+	if (tick >=1)
 	{
 		if (setpoint->mode.z == modeDisable)
 		{
@@ -75,13 +82,14 @@ void stateControl(control_data *control,  self_data *self, expect_data *setpoint
 			
 		attitudeDesired.x += configParam.trimR;	//叠加微调值
 		attitudeDesired.y += configParam.trimP;		
-		
-		attitudeAnglePID(&self->attitudeRate, &attitudeDesired, &rateDesired);
+		attitudeDesired.x=0;
+		attitudeDesired.y=0;
+		attitudeDesired.z=0;
+		attitudeAnglePID(&self->attitude, &attitudeDesired, &rateDesired);
 	}
-	
-	//角速度环（内环）
-	if (RATE_DO_EXECUTE(RATE_PID_RATE, tick))
-	{
+
+	  //角速度环（内环）
+/*
 		if (setpoint->mode.roll == modeVelocity)
 		{
 			rateDesired.x = setpoint->attitudeRate.x;
@@ -91,15 +99,15 @@ void stateControl(control_data *control,  self_data *self, expect_data *setpoint
 		{
 			rateDesired.y = setpoint->attitudeRate.y;
 			attitudeControllerResetPitchAttitudePID();
-		}
-	
-		// attitudeRatePID(&sensors->gyro, &rateDesired, control);
+		}*/
+		// 角速度 期望内环准备开始调试
+		attitudeRatePID(&sensors->gyro, &rateDesired, control);
+		// 油门 基础油门为pmw一半的高精度数据
+		actualThrust = (65535-1)/2;
+		control->thrust = actualThrust;	
+		control->yaw = 0;  // 调整内环的时候yaw不参与处理
+		//printf(" thrust mode.output is thrust = %f,roll = %d,%d,%d \r\n",control->thrust,control->roll,control->pitch,control->yaw);
 
-		attitudeRatePID(&self->attitudeRate, &rateDesired, control);
-	}
-
-	control->thrust = actualThrust;	
-	
 	if (control->thrust < 5.f)
 	{			
 		control->roll = 0;
@@ -123,18 +131,46 @@ static motorPwm_data motorPWMSet={0, 0, 0, 0};
 
 void powerControl(control_data *control)	/*功率输出控制*/
 {
-	uint16_t r = control->roll / 2.0f;
-	uint16_t p = control->pitch / 2.0f;
+	int16_t r = control->roll / 2.0f; // [-65535,65535]=》【-32767,32767】
+	int16_t p = control->pitch / 2.0f;
+	// 电机设置依据调整
+	/**
+	800.000000,196,1274,270    
+
+	2 3
+	1 4                                    翅膀正
+	    -x                                 ^  y
+	                               开关    |
+	 +y                      机头----------------x--->      
+	                                       |
 	
-	motorPWM.m1 = limitThrust(control->thrust - r - p + control->yaw);
-	motorPWM.m2 = limitThrust(control->thrust - r + p - control->yaw);
-	motorPWM.m3 = limitThrust(control->thrust + r + p + control->yaw);
-	motorPWM.m4 = limitThrust(control->thrust + r - p - control->yaw);		
+	      [高 
+	       低-45]
+	
+		逆时针正，顺时针负数
+	
+	
+	左转13大24小
+	
+	
+	俯仰
+	
+	bug:角速度和角度的方向相反，现在时根据角速度规划的四轴pmw输出
+		公式与pid输出正负号密切相关
+	*/
+	motorPWM.m1 = limitThrust(control->thrust + r - p + control->yaw);
+	
+	motorPWM.m2 = limitThrust(control->thrust - r - p - control->yaw);
+	
+	motorPWM.m3 = limitThrust(control->thrust - r + p + control->yaw);
+	
+	motorPWM.m4 = limitThrust(control->thrust + r + p - control->yaw);		
 
 	if (motorSetEnable)
 	{
 		motorPWM = motorPWMSet;
 	}
+	//printf(" m1 = %d m2 = %d m3 = %d m4 = %d ",motorPWM.m1,motorPWM.m2,motorPWM.m3,motorPWM.m4);
 	motorsSetRatio(MOTOR_M1, motorPWM.m1);	/*控制电机输出百分比*/
 	motorsSetRatio(MOTOR_M2, motorPWM.m2);
 	motorsSetRatio(MOTOR_M3, motorPWM.m3);
@@ -161,28 +197,43 @@ void motorsSetRatio(uint32_t id, uint16_t ithrust)
 	if (isInit) 
 	{
 		uint16_t ratio=ithrust;
-
+		/*
+		float thrust = ((float)ithrust / 65536.0f) * 60;// 油门从每秒转换为每分钟
+		float volts = -0.0006239f * thrust * thrust + 0.088f * thrust; //计算推力
+		float supply_voltage = pmGetBatteryVoltage();
+		float percentage = volts / supply_voltage;
+		percentage = percentage > 1.0f ? 1.0f : percentage;
+		ratio = percentage * UINT16_MAX;
+		motor_ratios[id] = ratio;*/
 		switch(id)
 		{
 			case 0:		/*MOTOR_M1*/
-				__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, ratioToCCRx(ratio));				break;
-				break;
-			case 1:		/*MOTOR_M2*/
-				__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, ratioToCCRx(ratio));				break;
-			case 2:		/*MOTOR_M3*/
 				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, ratioToCCRx(ratio));				break;
 				break;
-			case 3:		/*MOTOR_M4*/	
+			case 1:		/*MOTOR_M2*/
 				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, ratioToCCRx(ratio));				break;
+			case 2:		/*MOTOR_M3*/
+				__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, ratioToCCRx(ratio));				break;
+				break;
+			case 3:		/*MOTOR_M4*/	
+				__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, ratioToCCRx(ratio));				break;
 				break;
 			default: break;
 		}	
 	}
 }
 
- static uint16_t ratioToCCRx(uint16_t val)
+static uint16_t ratioToCCRx(uint16_t val)
 {
-	return ((val) >> (16 - MOTORS_PWM_BITS) & ((1 << MOTORS_PWM_BITS) - 1));
+    uint16_t result = val / 65.535;  // 进行除法运算
+
+    if (result > 1000) {   // 如果结果大于1000，则输出1000
+        return 1000;
+    } else if (result < 0) {   // 如果结果小于0，则输出0
+        return 0;
+    } else {
+        return result;    // 其他情况输出原来的结果
+    }
 }
 void setMotorPWM(uint8_t enable, uint32_t m1_set, uint32_t m2_set, uint32_t m3_set, uint32_t m4_set)
 {

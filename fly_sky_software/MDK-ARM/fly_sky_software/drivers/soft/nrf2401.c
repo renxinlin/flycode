@@ -361,6 +361,12 @@ void Remote_Data_ReceiveAnalysis(void)
 		remoter.trimPitch  = bytesToFloat( NRF_RX_DATA, 22); 
 		remoter.trimRoll  = bytesToFloat( NRF_RX_DATA, 26); 
 		remoter.checksum  = bytesToFloat( NRF_RX_DATA, 30); 
+		commanderBits.ctrlMode = remoter.ctrlMode ;
+	// todo 处理命令
+		commanderBits.keyFlight = 1; 
+		commanderBits.keyLand = 0;
+		commanderBits.emerStop = 0;
+		commanderBits.flightMode = remoter.flightMode; // 有头 1无头
  }
 
 /*****************************************************************************

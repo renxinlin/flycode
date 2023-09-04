@@ -281,6 +281,23 @@ typedef struct
 	
 }motorPwm_data;
 
+//摇杆单方向量程参数
+struct range_s
+{
+	uint16_t range_pos;	//摇杆正量程
+	uint16_t mid;
+	uint16_t range_neg;	//摇杆负量程
+};
+
+//摇杆量程参数
+typedef struct
+{
+	struct range_s thrust;
+	struct range_s roll;
+	struct range_s pitch;
+	struct range_s yaw;
+}joystickParam_t;
+
 
 extern ctrlval_data ctrlValLpf;
 extern commanderBits_data commanderBits;

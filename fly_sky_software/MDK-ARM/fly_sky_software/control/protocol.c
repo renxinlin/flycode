@@ -16,7 +16,8 @@ static float maxAccZ = 0.f;
 
 static YawModeType yawMode = XMODE;	/* 默认为X飞行模式 */
 static commanderBits_data commander;
-static uint8_t isRCLocked;				/* 遥控锁定状态 */
+static uint8_t isRCLocked = 0;				/* 遥控锁定状态 0打开 1上锁*/
+
 static uint8_t initHigh ;
 static uint8_t isAdjustingPosZ  ; /*调整Z位置*/
 static uint8_t isAdjustingPosXY = 1; /*调整XY位置*/
@@ -32,6 +33,13 @@ void commanderGetSetpoint(expect_data *setpoint, self_data *state)
 	static float maxAccZ = 0.f;
 	
 	ctrlDataUpdate();	/*更新遥控器控制数据*/
+	// mock数据 todo 从nrf2401获取
+		commanderBits.ctrlMode = ALTHOLD_MODE; 
+		commanderBits.keyFlight = 1; 
+		commanderBits.keyLand = 0;
+		commanderBits.emerStop = 0;
+		commanderBits.flightMode = 0; // 有头 1无头
+	
 	
 	state->isRCLocked = isRCLocked;	/*更新遥控器锁定状态*/
 	
@@ -53,8 +61,8 @@ void commanderGetSetpoint(expect_data *setpoint, self_data *state)
 				errorPosX = 0.f;
 				errorPosY = 0.f;
 				errorPosZ = 0.f;
-
-			//	setFastAdjustPosParam(0, 1, 80.f);	/*一键起飞高度80cm*/															
+				// 一键起飞高度150cm
+				setpoint->position.z = 150;															
 			}		
 				
 			float climb = ((remoter_lpf.thrust - 32767.f) / 32767.f);
@@ -158,6 +166,7 @@ static void ctrlDataUpdate(void)
 			ctrlValLpf.thrust = 0;	
 		else 		
 			ctrlValLpf.thrust = (ctrlValLpf.thrust>=MAX_THRUST) ? MAX_THRUST:ctrlValLpf.thrust;
+	
 	}else{
 			commanderDropToGround();
 
@@ -248,9 +257,6 @@ void flyerAutoLand(expect_data *setpoint,const self_data *state)
 		estRstAll();	/*复位估测*/
 	}	
 }
-
-
-
 
 
 

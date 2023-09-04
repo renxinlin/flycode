@@ -24,6 +24,7 @@
 #include "gpio.h"
 #include "delay.h"
 #include "oled.h"
+#include "stdio.h"
 #include "nrf24l01.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -92,12 +93,21 @@ int main(void)
   MX_GPIO_Init();
   MX_ADC1_Init();
   MX_SPI1_Init();
+
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+		printf("3\r\n");
+
   usTickInit();
+			printf("4\r\n");
+
 	OLED_Init();
+				printf("5\r\n");
+
 	NRF24l01_Init();
-	
+ 
+					printf("6\r\n");
+
   /* USER CODE END 2 */
 
   /* Infinite loop */

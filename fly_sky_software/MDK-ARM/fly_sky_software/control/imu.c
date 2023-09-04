@@ -4,12 +4,13 @@
 #include "data.h"
 #include "imu.h"
 #include "maths.h"
+#include "stdio.h"
 #include "math.h"
 #define ACCZ_SAMPLE		350
 
 // 此处是安装四元数求解标准流程定义的pid部分，不参与姿态pid部分
-float Kp = 0.4f;		/*比例增益*/
-float Ki = 0.001f;		/*积分增益*/
+float Kp = 20.f;		/*需要实际调节硬件获得合适的p 经验:18 <p<30 */
+float Ki = 3.f;		/*需要实际调节硬件获得合适的p  1<i<5*/
 
 float exInt = 0.0f;
 float eyInt = 0.0f;
@@ -23,7 +24,7 @@ static float rMat[3][3];/*余弦矩阵旋转矩阵*/
 
 
 static float maxError = 0.f;		/*最大误差*/
-uint8_t isGravityCalibrated = 1;	/*是否校校准完成 0完成*/
+uint8_t isGravityCalibrated = 0;	/*是否校校准完成 0完成*/
 static float baseAcc[3] = {0.f,0.f,1.0f};	/*静态加速度*/
 
 void imucalcuate(void);
@@ -45,7 +46,7 @@ void imuComputeRotationMatrix(void)
     float q1q2 = q1 * q2;
     float q1q3 = q1 * q3;
     float q2q3 = q2 * q3;
-
+		// rMat[0][0] = q0*q0+q1*q1-q2*q2-q3*q3;
     rMat[0][0] = 1.0f - 2.0f * q2q2 - 2.0f * q3q3;
     rMat[0][1] = 2.0f * (q1q2 + -q0q3);
     rMat[0][2] = 2.0f * (q1q3 - -q0q2);
@@ -84,7 +85,9 @@ void imuUpdate(acc_data acc, gyro_data gyro, self_data *state , float dt)	/*数据
 		rMat[2][0] = 2.0f * (q1*q3 + -q0*q2);
 	  rMat[2][1] = 2.0f * (q2*q3 - -q0*q1);
 	  rMat[2][2] = 1.0f - 2.0f * q1*q1 - 2.0f * q2*q2;
-
+	
+ 		
+		
 		/*加速计读取的方向与重力加速计方向的差值，用向量叉乘计算*/
 		ex = (acc.y * rMat[2][2] - acc.z * rMat[2][1]);
 		ey = (acc.z * rMat[2][0] - acc.x * rMat[2][2]);
@@ -120,12 +123,14 @@ void imuUpdate(acc_data acc, gyro_data gyro, self_data *state , float dt)	/*数据
 	imuComputeRotationMatrix();	/*计算旋转矩阵*/
 	
 	/*计算roll pitch yaw 欧拉角*/
-	state->attitude.x = -asinf(rMat[2][0]) * RAD2DEG; 
-	state->attitude.y = atan2f(rMat[2][1], rMat[2][2]) * RAD2DEG;
-	state->attitude.z = atan2f(rMat[1][0], rMat[0][0]) * RAD2DEG;
-	
-	if (!isGravityCalibrated)	/*未校准*/
+	//state->attitude.x = -asinf(rMat[2][0]) * RAD2DEG; 
+	//state->attitude.y = atan2f(rMat[2][1], rMat[2][2]) * RAD2DEG;
+	//state->attitude.z = atan2f(rMat[1][0], rMat[0][0]) * RAD2DEG;
+	// 		*yaw   = atan2(2*(q1*q2 + q0*q3),q0*q0+q1*q1-q2*q2-q3*q3) * 57.3;	//yaw
+
+ 	if (!isGravityCalibrated)	/*未校准*/
 	{		
+	
 //		accBuf[0] = tempacc.x* rMat[0][0] + tempacc.y * rMat[0][1] + tempacc.z * rMat[0][2];	/*accx*/
 //		accBuf[1] = tempacc.x* rMat[1][0] + tempacc.y * rMat[1][1] + tempacc.z * rMat[1][2];	/*accy*/
 		// 更新加速度在地球参考坐标系的值为baseAcc
@@ -160,8 +165,7 @@ static void calBaseAcc(float* acc)	/*计算静态加速度*/
 		{
 			for(u8 i=0; i<3; i++)
 				baseAcc[i] = sumAcc[i] / ACCZ_SAMPLE;
-			
-			isGravityCalibrated = 0;
+			isGravityCalibrated = 1;
 		}
 		for(u8 i=0; i<3; i++)		
 			sumAcc[i] = 0.f;		

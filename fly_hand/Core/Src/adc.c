@@ -22,7 +22,30 @@
 #include "command.h"
 
 /* USER CODE BEGIN 0 */
+#define ADC_SAMPLE_NUM	10
 
+uint16_t adc_value[5*ADC_SAMPLE_NUM];//ADC采集值存放缓冲区
+ #define ABS(x) 		(((x) < 0) ? (-x) : (x))
+
+#define MID_DB_THRUST		150	
+#define MID_DB_YAW			300	
+#define MID_DB_PITCH		150
+#define MID_DB_ROLL			150
+
+//摇杆上下量程死区值（ADC值）
+#define DB_RANGE			10
+
+//获取摇杆方向时定义在中间的范围值（ADC值）
+#define DIR_MID_THRUST		800
+#define DIR_MID_YAW			800
+#define DIR_MID_PITCH		800
+#define DIR_MID_ROLL		800
+
+uint16_t getAdcValue(uint8_t axis);
+int deadband(int value, const int threshold);
+
+static uint8_t isInit;
+static joystickParam_t* jsParam;
 /* USER CODE END 0 */
 
 ADC_HandleTypeDef hadc1;
@@ -126,6 +149,24 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 
 /* USER CODE BEGIN 1 */
 
+/*去除死区函数*/
+int deadband(int value, const int threshold)
+{
+	
+	if (ABS(value) < threshold)
+	{
+		value = 0;
+	}
+	else if (value > 0)
+	{
+		value -= threshold;
+	}
+	else if (value < 0)
+	{
+		value += threshold;
+	}
+	return value;
+}
 
 /*ADC值转换成飞控数据百分比*/
 void ADCtoFlyDataPercent(control_data *percent)
@@ -166,3 +207,41 @@ void ADCtoFlyDataPercent(control_data *percent)
 		percent->yaw = (float)adcValue/(jsParam->yaw.range_neg-MID_DB_YAW-DB_RANGE);
 }
 /* USER CODE END 1 */
+
+
+
+//ADC均值滤波
+void ADC_Filter(u16* adc_val)
+{
+	uint16_t i=0;
+	uint32_t sum[5]={0,0,0,0};
+	
+	for(;i<ADC_SAMPLE_NUM;i++)
+	{
+		sum[0]+=adc_value[5*i+0];
+		sum[1]+=adc_value[5*i+1];
+		sum[2]+=adc_value[5*i+2];
+		sum[3]+=adc_value[5*i+3];
+		sum[4]+=adc_value[5*i+4];
+	}
+	adc_val[0]=sum[0]/ADC_SAMPLE_NUM;
+	adc_val[1]=sum[1]/ADC_SAMPLE_NUM;
+	adc_val[2]=sum[2]/ADC_SAMPLE_NUM;
+	adc_val[3]=sum[3]/ADC_SAMPLE_NUM;
+	adc_val[4]=sum[4]/ADC_SAMPLE_NUM;
+}
+
+
+uint16_t getAdcValue(uint8_t axis)
+{
+	uint32_t sum=0;
+	for(u8 i=0;i<ADC_SAMPLE_NUM;i++)
+	{
+		sum += adc_value[5*i+axis];
+	}
+	return sum/ADC_SAMPLE_NUM;
+}
+
+
+
+

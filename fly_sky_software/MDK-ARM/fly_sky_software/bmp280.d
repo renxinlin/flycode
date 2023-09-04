@@ -48,6 +48,11 @@ fly_sky_software\bmp280.o: .\fly_sky_software\control\imu.h
 fly_sky_software\bmp280.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 fly_sky_software\bmp280.o: .\fly_sky_software\common\maths.h
 fly_sky_software\bmp280.o: .\fly_sky_software\drivers\soft\bmp280.h
+fly_sky_software\bmp280.o: .\fly_sky_software\control\protocol.h
+fly_sky_software\bmp280.o: .\fly_sky_software\control\outterControl.h
+fly_sky_software\bmp280.o: .\fly_sky_software\control\pid.h
+fly_sky_software\bmp280.o: .\fly_sky_software\control\control.h
+fly_sky_software\bmp280.o: .\fly_sky_software\control\innerControl.h
 fly_sky_software\bmp280.o: .\fly_sky_software\control\sensors.h
 fly_sky_software\bmp280.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 fly_sky_software\bmp280.o: .\fly_sky_software\common\structconfig.h

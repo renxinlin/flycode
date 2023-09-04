@@ -40,10 +40,13 @@ extern "C" {
 #include "imu.h"
 #include "positionEstimate.h"
 #include "bmp280.h" 
+#include "protocol.h" 
+#include "control.h" 
 #include "sensors.h"
 #include <stdio.h>
 #include "structconfig.h"
 
+void configParamInit(void) ;
 
 int get_ms_count(unsigned long *count);
 /* Private includes ----------------------------------------------------------*/

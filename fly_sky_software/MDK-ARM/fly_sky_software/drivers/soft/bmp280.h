@@ -87,7 +87,17 @@ typedef struct
 } BMP280_AvgTypeDef;
 
 #define MSLP     101325          // Mean Sea Level Pressure = 1013.25 hPA (1hPa = 100Pa = 1mbar)
-#define ALTITUDE_OFFSET          10000
+
+#define BMP280_SLEEP_MODE				(0x00)
+#define BMP280_FORCED_MODE				(0x01)
+#define BMP280_NORMAL_MODE				(0x03)
+
+#define BMP280_OVERSAMP_SKIPPED			(0x00)
+#define BMP280_OVERSAMP_1X				(0x01)
+#define BMP280_OVERSAMP_2X				(0x02)
+#define BMP280_OVERSAMP_4X				(0x03)
+#define BMP280_OVERSAMP_8X				(0x04)
+#define BMP280_OVERSAMP_16X				(0x05)
 
 void I2C_Init(void);
 void BMP280_Init();

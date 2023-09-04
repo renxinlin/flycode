@@ -29,6 +29,7 @@ extern "C" {
 #include "stm32f1xx_hal.h"
 extern uint32_t counter;
 extern uint32_t counter_2ms;
+extern uint32_t counter_4ms;
 extern uint32_t counter_5ms;
 extern uint32_t counter_10ms;
 extern uint32_t counter_20ms;

@@ -7,6 +7,7 @@
 //    其他,错误代码
 uint8_t MPU_Init(void)
 { 
+	int rate = 500;
 	uint8_t res; 
 	SDA_OUT();//初始化IIC总线
 	SCL_OUT();//初始化IIC总线
@@ -14,20 +15,17 @@ uint8_t MPU_Init(void)
   HAL_Delay(100); //////////////////////////////////////////////非常重要在芯片复位的时候需要一定的等待时间
 	MPU_Write_Byte(MPU_PWR_MGMT1_REG,0X00);	//唤醒MPU6050 
 	MPU_Set_Gyro_Fsr(3);					//陀螺仪传感器,±2000dps
-	MPU_Set_Accel_Fsr(0);					//加速度传感器,±2g
-	MPU_Set_Rate(50);						//设置采样率50Hz
+	MPU_Set_Accel_Fsr(0);					//加速度传感器,±16g
+	MPU_Set_Rate(rate);						//设置采样率1kHz
 	MPU_Write_Byte(MPU_INT_EN_REG,0X00);	//关闭所有中断
 	MPU_Write_Byte(MPU_USER_CTRL_REG,0X00);	//I2C主模式关闭
 	MPU_Write_Byte(MPU_FIFO_EN_REG,0X00);	//关闭FIFO
 	MPU_Write_Byte(MPU_INTBP_CFG_REG,0X80);	//INT引脚低电平有效
 	res=MPU_Read_Byte(MPU_DEVICE_ID_REG); 
-	printf("mpu id is %u...",res);
 	if(res==MPU_ADDR)//器件ID正确 整型值 104
 	{
 		MPU_Write_Byte(MPU_PWR_MGMT1_REG,0X01);	//设置CLKSEL,PLL X轴为参考
 		MPU_Write_Byte(MPU_PWR_MGMT2_REG,0X00);	//加速度与陀螺仪都工作
-		MPU_Set_Rate(200);						//设置采样率为50Hz
-		printf("set rate for mpu is 200");
  	}else return 1;
 	return 0;
 }
@@ -116,7 +114,7 @@ uint8_t MPU_Get_Accelerometer(short *ax,short *ay,short *az)
 	{
 		*ax=((u16)buf[0]<<8)|buf[1];  
 		*ay=((u16)buf[2]<<8)|buf[3];  
-		*az=((u16)buf[4]<<8)|buf[5];
+		*az=((u16)buf[4]<<8)|buf[5]; 
 	} 	
     return res;;
 }

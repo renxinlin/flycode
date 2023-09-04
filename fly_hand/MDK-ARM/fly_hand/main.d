@@ -30,6 +30,7 @@ fly_hand\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 fly_hand\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h
 fly_hand\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 fly_hand\main.o: ../Core/Inc/adc.h
+fly_hand\main.o: ../common/data.h
 fly_hand\main.o: ../Core/Inc/spi.h
 fly_hand\main.o: ../Core/Inc/usart.h
 fly_hand\main.o: ../Core/Inc/gpio.h
@@ -38,5 +39,6 @@ fly_hand\main.o: ..\chipdriver\oled.h
 fly_hand\main.o: ..\chipdriver\iic.h
 fly_hand\main.o: ../common/delay.h
 fly_hand\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+fly_hand\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 fly_hand\main.o: ..\chipdriver\nrf24l01.h
 fly_hand\main.o: ../common/delay.h

@@ -2861,14 +2861,10 @@ int mpu_load_firmware(unsigned short length, const unsigned char *firmware,
     if (st.chip_cfg.dmp_loaded)
         /* DMP should only be loaded once. */
         return -1;
-		printf("load...1\r\n");
-
     if (!firmware)
         return -1;
-		printf("load...2\r\n");
-    for (ii = 0; ii < length; ii += this_write) {
+     for (ii = 0; ii < length; ii += this_write) {
         this_write = min(LOAD_CHUNK, length - ii);
-				printf("this write...%d \r\n",ii);
         if (mpu_write_mem(ii, this_write, (unsigned char*)&firmware[ii])){						
 					return -1;
 				}
@@ -2879,8 +2875,6 @@ int mpu_load_firmware(unsigned short length, const unsigned char *firmware,
 					  return -2;
 				}
     }
-		printf("load...3\r\n");
-
     /* Set program start address. */
     tmp[0] = start_addr >> 8;
     tmp[1] = start_addr & 0xFF;
@@ -3398,39 +3392,29 @@ uint8_t mpu_dmp_init(void)
 	uint8_t res=0;
 	if(MPU_Init()==0)	//初始化MPU6050
 	{	 
-		printf("start dmp init step-1\r\n");
-		res=mpu_set_sensors(INV_XYZ_GYRO|INV_XYZ_ACCEL);//设置所需要的传感器
+ 		res=mpu_set_sensors(INV_XYZ_GYRO|INV_XYZ_ACCEL);//设置所需要的传感器
 		if(res)return 1; 
-		printf("start dmp init step-2\r\n");
-		res=mpu_configure_fifo(INV_XYZ_GYRO|INV_XYZ_ACCEL);//设置FIFO
+ 		res=mpu_configure_fifo(INV_XYZ_GYRO|INV_XYZ_ACCEL);//设置FIFO
 		if(res)return 2; 
-		printf("start dmp init step-3\r\n");
-		res=mpu_set_sample_rate(DEFAULT_MPU_HZ);	//设置采样率
+ 		res=mpu_set_sample_rate(DEFAULT_MPU_HZ);	//设置采样率
 		if(res)return 3; 
-		printf("start dmp init step-4\r\n");
-		res=dmp_load_motion_driver_firmware();		//加载dmp固件
-		printf("start dmp init step-4 over %d,\r\n",res);
-		if(res)return 4; 
-		printf("start dmp init step-5\r\n");
-		res=dmp_set_orientation(inv_orientation_matrix_to_scalar(gyro_orientation));//设置陀螺仪方向
+ 		res=dmp_load_motion_driver_firmware();		//加载dmp固件
+ 		if(res)return 4; 
+ 		res=dmp_set_orientation(inv_orientation_matrix_to_scalar(gyro_orientation));//设置陀螺仪方向
 		if(res)return 5; 
-		printf("start dmp init step-6\r\n");
-		res=dmp_enable_feature(DMP_FEATURE_6X_LP_QUAT|DMP_FEATURE_TAP|	//设置dmp功能
+ 		res=dmp_enable_feature(DMP_FEATURE_6X_LP_QUAT|DMP_FEATURE_TAP|	//设置dmp功能
 		    DMP_FEATURE_ANDROID_ORIENT|DMP_FEATURE_SEND_RAW_ACCEL|DMP_FEATURE_SEND_CAL_GYRO|
 		    DMP_FEATURE_GYRO_CAL);
 		if(res)return 6; 
-		printf("start dmp init step-7\r\n");
-		res=dmp_set_fifo_rate(DEFAULT_MPU_HZ);	//设置DMP输出速率(最大不超过200Hz)
+ 		res=dmp_set_fifo_rate(DEFAULT_MPU_HZ);	//设置DMP输出速率(最大不超过200Hz)
 		if(res)return 7;   
 //		res=run_self_test();		//自检
 		if(res)return 8;    
-		printf("start dmp init step-9\r\n");
-		res=mpu_set_dmp_state(1);	//使能DMP
+ 		res=mpu_set_dmp_state(1);	//使能DMP
 		if(res)return 9;     
 	}else return 10;
 	
-	printf("start dmp init step-over and success \r\n");
-	return 0;
+ 	return 0;
 }
 //得到dmp处理后的数据(注意,本函数需要比较多堆栈,局部变量有点多)
 //pitch:俯仰角 精度:0.1°   范围:-90.0° <---> +90.0°

@@ -30,7 +30,11 @@ extern "C" {
 #include "data.h"
 
 /* USER CODE BEGIN Includes */
-
+#define  ADC_BAT		0
+#define  ADC_ROLL		1
+#define  ADC_PITCH	 	2
+#define  ADC_YAW		3
+#define  ADC_THRUST		4
 /* USER CODE END Includes */
 
 extern ADC_HandleTypeDef hadc1;
@@ -48,6 +52,7 @@ void MX_ADC1_Init(void);
 #ifdef __cplusplus
 }
 #endif
+
 
 #endif /* __ADC_H__ */
 

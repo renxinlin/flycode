@@ -54,7 +54,6 @@ void MX_SPI1_Init(void)
 		printf("spi init error \r\n");
     Error_Handler();
   }
-			printf("spi init success \r\n");
 
   /* USER CODE BEGIN SPI1_Init 2 */
 
@@ -68,7 +67,6 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
   GPIO_InitTypeDef GPIO_InitStruct = {0};
   if(spiHandle->Instance==SPI1)
   {
-		printf("spi init" );
   /* USER CODE BEGIN SPI1_MspInit 0 */
 
   /* USER CODE END SPI1_MspInit 0 */

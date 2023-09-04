@@ -31,4 +31,5 @@ fly_sky_software\imu.o: C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4
 fly_sky_software\imu.o: C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 fly_sky_software\imu.o: fly_sky_software\control\imu.h
 fly_sky_software\imu.o: .\fly_sky_software\common\maths.h
+fly_sky_software\imu.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 fly_sky_software\imu.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

@@ -31,3 +31,4 @@ fly_sky_software\innercontrol.o: C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_
 fly_sky_software\innercontrol.o: C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 fly_sky_software\innercontrol.o: C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 fly_sky_software\innercontrol.o: fly_sky_software\control\data.h
+fly_sky_software\innercontrol.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

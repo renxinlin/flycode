@@ -52,5 +52,10 @@ fly_sky_software\nrf2401.o: .\fly_sky_software\drivers\soft\bmp280.h
 fly_sky_software\nrf2401.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 fly_sky_software\nrf2401.o: .\fly_sky_software\system\delay.h
 fly_sky_software\nrf2401.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+fly_sky_software\nrf2401.o: .\fly_sky_software\control\protocol.h
+fly_sky_software\nrf2401.o: .\fly_sky_software\control\outterControl.h
+fly_sky_software\nrf2401.o: .\fly_sky_software\control\pid.h
+fly_sky_software\nrf2401.o: .\fly_sky_software\control\control.h
+fly_sky_software\nrf2401.o: .\fly_sky_software\control\innerControl.h
 fly_sky_software\nrf2401.o: .\fly_sky_software\control\sensors.h
 fly_sky_software\nrf2401.o: .\fly_sky_software\common\structconfig.h

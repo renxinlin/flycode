@@ -28,6 +28,7 @@ TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim2;
 uint32_t counter;
 uint32_t counter_2ms;
+uint32_t counter_4ms;
 uint32_t counter_5ms;
 uint32_t counter_10ms;
 uint32_t counter_20ms;
@@ -285,6 +286,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     // 在这里添加需要执行的代码
 		counter++;
 		counter_2ms++;
+		counter_4ms++;
 		counter_5ms++;
 		counter_10ms++;
 		counter_20ms++;

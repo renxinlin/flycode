@@ -44,43 +44,41 @@ void sensorsInit(){
 		lpf2pInit(&accLpf[1],  1000, ACCEL_LPF_CUTOFF_FREQ);
 		lpf2pInit(&accLpf[2],  1000, ACCEL_LPF_CUTOFF_FREQ);
 		// todo 陀螺仪偏置初始化
+		sensorsBiasObjInit(&gyroBiasRunning);
 }
 
-void sensorsDataGet(void)
+static void sensorsBiasObjInit(BiasObj* bias)
+{
+	bias->isBufferFilled = 0;
+	bias->bufHead = bias->buffer;
+}
+uint8_t sensorsDataGet(void)
 {
 
 	
 		// 读取mpu 加速度与角速度
-		MPU_Get_Accelerometer(&gyroRaw.x,&gyroRaw.y,&gyroRaw.z);
-		MPU_Get_Gyroscope(&accRaw.x,&accRaw.y,&accRaw.z);
-				printf("mpudataof %u,%u,%u,%u,%u,%u \r\n",gyroRaw.x,gyroRaw.y,
-		gyroRaw.z,accRaw.x,accRaw.y,accRaw.z);
-		gyroBiasFound = processGyroBias(gyroRaw.x, gyroRaw.y, gyroRaw.z, &gyroBias);
+		MPU_Get_Gyroscope(&gyroRaw.x,&gyroRaw.y,&gyroRaw.z);
+		MPU_Get_Accelerometer(&accRaw.x,&accRaw.y,&accRaw.z);
 
+		gyroBiasFound = processGyroBias(gyroRaw.x, gyroRaw.y, gyroRaw.z, &gyroBias);
 		if (gyroBiasFound)
 		{
 			// 陀螺仪偏置
-			printf("=============finish  bias process");
 			processAccScale(accRaw.x, accRaw.y, accRaw.z);	/*计算accScale*/
-		}else{
-			printf("=============not  bias process");
-		}
-		
-		sensors.gyro.x = -(gyroRaw.x - gyroBias.x) * SENSORS_DEG_PER_LSB_CFG;	/*单位 °/s */
-		sensors.gyro.y =  (gyroRaw.y - gyroBias.y) * SENSORS_DEG_PER_LSB_CFG;
-		sensors.gyro.z =  (gyroRaw.z - gyroBias.z) * SENSORS_DEG_PER_LSB_CFG;
-		
-	//				printf("mpudata  applyGyroLpf before %f,%f,%f,%f,%f,%f \r\n",sensors.acc.x,sensors.acc.y,
-	//		sensors.acc.z,sensors.gyro.x,sensors.gyro.y,sensors.gyro.z);
-		applyGyroLpf(gyroLpf, &sensors.gyro);	
+			sensors.gyro.x =  (gyroRaw.x - gyroBias.x) * SENSORS_DEG_PER_LSB_CFG;	/*单位 °/s */
+			sensors.gyro.y =  (gyroRaw.y - gyroBias.y) * SENSORS_DEG_PER_LSB_CFG;
+			sensors.gyro.z =  (gyroRaw.z - gyroBias.z) * SENSORS_DEG_PER_LSB_CFG;
+			
+			applyGyroLpf(gyroLpf, &sensors.gyro);	
 
-		sensors.acc.x = -(accRaw.x) * SENSORS_G_PER_LSB_CFG / accScale;	/*单位 g(9.8m/s^2)*/
-		sensors.acc.y =  (accRaw.y) * SENSORS_G_PER_LSB_CFG / accScale;	/*重力加速度缩放因子accScale 根据样本计算得出*/
-		sensors.acc.z =  (accRaw.z) * SENSORS_G_PER_LSB_CFG / accScale;
-		applyAccLpf(accLpf, &sensors.acc);
-		printf("mpudata applyGyroLpf after %f,%f,%f,%f,%f,%f \r\n",sensors.acc.x,sensors.acc.y,
-			sensors.acc.z,sensors.gyro.x,sensors.gyro.y,sensors.gyro.z);
-	
+			sensors.acc.x = -(accRaw.x) * SENSORS_G_PER_LSB_CFG / accScale;	/*单位 g(9.8m/s^2)*/
+			sensors.acc.y =  (accRaw.y) * SENSORS_G_PER_LSB_CFG / accScale;	/*重力加速度缩放因子accScale 根据样本计算得出*/
+			sensors.acc.z =  (accRaw.z) * SENSORS_G_PER_LSB_CFG / accScale;
+			applyAccLpf(accLpf, &sensors.acc);
+			//printf("mpudata applyGyroLpf after %f,%f,%f,%f,%f,%f \r\n",sensors.acc.x,sensors.acc.y,
+			//sensors.acc.z,sensors.gyro.x,sensors.gyro.y,sensors.gyro.z);
+		}
+		return gyroBiasFound;
 }
 
 static uint8_t processGyroBias(int16_t gx, int16_t gy, int16_t gz, Axis3f *gyroBiasOut)
@@ -95,7 +93,6 @@ static uint8_t processGyroBias(int16_t gx, int16_t gy, int16_t gz, Axis3f *gyroB
 	gyroBiasOut->x = gyroBiasRunning.bias.x;
 	gyroBiasOut->y = gyroBiasRunning.bias.y;
 	gyroBiasOut->z = gyroBiasRunning.bias.z;
-
 	return gyroBiasRunning.isBiasValueFound;
 }
 
@@ -109,7 +106,7 @@ static uint8_t sensorsFindBiasValue(BiasObj* bias)
 		Axis3f mean;
 		Axis3f variance;
 		sensorsCalculateVarianceAndMean(bias, &variance, &mean);
-
+		printf("variance is %f %f %f",variance.x,variance.y,variance.z);
 		if (variance.x < GYRO_VARIANCE_BASE && variance.y < GYRO_VARIANCE_BASE && variance.z < GYRO_VARIANCE_BASE)
 		{
 			bias->bias.x = mean.x;
@@ -117,8 +114,16 @@ static uint8_t sensorsFindBiasValue(BiasObj* bias)
 			bias->bias.z = mean.z;
 			foundbias = 1;
 			bias->isBiasValueFound= 1;
-		}else
-			bias->isBufferFilled=0;
+		}else{
+			// todo 研究方差阈值合适的值
+			bias->bias.x = mean.x;
+			bias->bias.y = mean.y;
+			bias->bias.z = mean.z;
+			foundbias = 1;
+			bias->isBiasValueFound= 1;	
+		// foundbias = 0;
+		// 	bias->isBiasValueFound= 0;				
+		}
 	}
 	return foundbias;
 }
@@ -160,25 +165,24 @@ static uint8_t processAccScale(int16_t ax, int16_t ay, int16_t az)
 	{
 		accScaleSum += sqrtf(powf(ax * SENSORS_G_PER_LSB_CFG, 2) + powf(ay * SENSORS_G_PER_LSB_CFG, 2) + powf(az * SENSORS_G_PER_LSB_CFG, 2));
 		accScaleSumCount++;
-
 		if (accScaleSumCount == SENSORS_ACC_SCALE_SAMPLES)
 		{
 			accScale = accScaleSum / SENSORS_ACC_SCALE_SAMPLES;
 			accBiasFound = 1;
 		}
 	}
-
 	return accBiasFound;
 }
 
 
 static void sensorsAddBiasValue(BiasObj* bias, int16_t x, int16_t y, int16_t z)
 {
+	static int i = 0;
 	bias->bufHead->x = x;
 	bias->bufHead->y = y;
 	bias->bufHead->z = z;
 	bias->bufHead++;
-
+	i++;
 	if (bias->bufHead >= &bias->buffer[SENSORS_NBR_OF_BIAS_SAMPLES])
 	{
 		bias->bufHead = bias->buffer;

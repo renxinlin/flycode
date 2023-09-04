@@ -41,8 +41,8 @@ typedef struct
 #define INAV_ACC_BIAS_ACCEPTANCE_VALUE	(GRAVITY_CMSS * 0.25f)   // Max accepted bias correction of 0.25G - unlikely we are going to be that much off anyway
 
 
-static float wBaro = 0.35f;			/*气压校正权重*/
-static float wAccBias = 0.01f;		/*加速度校正权重*/
+static float wBaro = 0.75f;			/*气压校正权重*/
+static float wAccBias = 0.001f;		/*加速度校正权重*/
 
 void positionEstimate(sensor_data* sensorData, self_data* selfData, float dt);
 

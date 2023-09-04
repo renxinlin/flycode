@@ -56,7 +56,7 @@ typedef struct
 
 typedef enum
 {
-	modeDisable,/*关闭模式*/
+	modeDisable,/*关闭模式 */
 	modeAbs,		/*绝对值模式*/
 	modeVelocity	/*速率模式*/
 } mode_e;
@@ -119,9 +119,9 @@ typedef struct
 
 typedef struct
 {
-	uint16_t roll;
-	uint16_t pitch;
-	uint16_t yaw;
+	int roll;
+	int pitch;
+	int yaw;
 	float thrust;
 } control_data;
 
@@ -217,7 +217,7 @@ enum ctrlMode
 {
 	ALTHOLD_MODE,// 定高
 	MANUAL_MODE,
-	THREEHOLD_MODE,
+	THREEHOLD_MODE, // 定点
 };
 
 enum flightMode
@@ -287,6 +287,8 @@ extern commanderBits_data commanderBits;
 extern self_data self;
 extern remoter_data remoter;
 extern configParam_data configParam; // pid持久化的数据
+extern expect_data expect_set_point; // 根据遥控器获得的期望设置目标数据
+extern control_data control_info; // 根据遥控器获得的期望设置目标数据
 
 #endif 
 

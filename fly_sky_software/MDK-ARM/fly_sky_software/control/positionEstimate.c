@@ -1,4 +1,5 @@
 #include "positionEstimate.h"
+#include "stdio.h"
 
 #define ABS(x) 		(((x) < 0) ? (-x) : (x))
 
@@ -34,14 +35,15 @@ void positionEstimate(sensor_data* sensorData, self_data* selfData, float dt)
 {	
 	static float rangeLpf = 0.f;
 	static float accLpf[3] = {0.f};		/*加速度低通*/	
-	float weight = wBaro;
+	// float weight = wBaro;
+	float weight = 0.99; // 测试模式下低空飞行不依赖加速度计算
 
 	float relateHight = sensorData->baro.asl - startBaroAsl;	/*气压相对高度*/
 	
-	
 	fusedHeight = relateHight;	/*融合高度*/
 	fusedHeightLpf += (fusedHeight - fusedHeightLpf) * 0.1f;	/*融合高度 低通*/
-	
+		// printf("relateHight is %f" ,fusedHeightLpf);
+
 	if(isRstHeight)
 	{	
 		isRstHeight = 0;
@@ -127,6 +129,8 @@ void positionEstimate(sensor_data* sensorData, self_data* selfData, float dt)
 	}
 	// 设置四轴自身姿态
 	selfData->position.z = estimator.pos[2];	
+	//printf("velocity is %fposition is %f" ,selfData->velocity.z,selfData->position.z);
+
 }
 
 

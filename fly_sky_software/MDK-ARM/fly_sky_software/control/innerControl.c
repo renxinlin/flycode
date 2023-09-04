@@ -1,4 +1,5 @@
 #include "innerControl.h"
+#include "stdio.h"
 
 extern configParam_data configParam; // pid持久化的数据
 
@@ -25,6 +26,7 @@ extern configParam_data configParam; // pid持久化的数据
  
 static inline int16_t pidOutLimit(float in)
 {
+	// 32767
 	if (in > INT16_MAX)
 		return INT16_MAX;
 	else if (in < -INT16_MAX)
@@ -57,6 +59,32 @@ void attitudeRatePID(acc_data *actualRate,acc_data *desiredRate,control_data *ou
 	output->roll = pidOutLimit(pidUpdate(&pidRateRoll, desiredRate->x - actualRate->x));
 	output->pitch = pidOutLimit(pidUpdate(&pidRatePitch, desiredRate->y - actualRate->y));
 	output->yaw = pidOutLimit(pidUpdate(&pidRateYaw, desiredRate->z - actualRate->z));
+	/*
+	printf("================================================================\r\n");
+	printf("pid out is %f\r\n",pidRateRoll.out);
+	printf("outP %f\r\n",pidRateRoll.outP);
+	printf("outI %f\r\n",pidRateRoll.outI);
+	printf("outD %f\r\n",pidRateRoll.outD);
+	printf("dt %f\r\n",pidRateRoll.dt);
+	printf("iLimit %f\r\n",pidRateRoll.iLimit);
+	printf("integ %f\r\n",pidRateRoll.integ);
+	printf("error %f\r\n",pidRateRoll.error);
+	printf("kd %f\r\n",pidRateRoll.kd);
+	printf("ki %f\r\n",pidRateRoll.ki);
+	printf("kp %f\r\n",pidRateRoll.kp);
+	printf("================================================================\r\n");
+	printf("pid pitch out is %f\r\n",pidRatePitch.out);
+	printf("outP %f\r\n",pidRatePitch.outP);
+	printf("outI %f\r\n",pidRatePitch.outI);
+	printf("outD %f\r\n",pidRatePitch.outD);
+	printf("dt %f\r\n",pidRatePitch.dt);
+	printf("iLimit %f\r\n",pidRatePitch.iLimit);
+	printf("integ %f\r\n",pidRatePitch.integ);
+	printf("error %f\r\n",pidRatePitch.error);
+	printf("kd %f\r\n",pidRatePitch.kd);
+	printf("ki %f\r\n",pidRatePitch.ki);
+	printf("kp %f\r\n",pidRatePitch.kp);
+	*/
 }
 
 void attitudeAnglePID(attitude_data *actualAngle,attitude_data *desiredAngle,acc_data *outDesiredRate)	/* 角度环PID */
