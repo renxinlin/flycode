@@ -71,6 +71,12 @@ static void velocityController(float* thrust, attitude_data *attitude, expect_da
 	attitude->x = 0.15f * pidUpdate(&pidVX, setpoint->velocity.x - state->velocity.x);
 	attitude->y = 0.15f * pidUpdate(&pidVY, setpoint->velocity.y - state->velocity.y);
 	
+	/**
+setpoint->mode.x = modeDisable;
+	setpoint->mode.y = modeDisable;		
+				setpoint->mode.z = modeAbs;	
+	setpoint->velocity.z 已经有了，求state->velocity.z
+		*/
 	// Thrust
 	float thrustRaw = pidUpdate(&pidVZ, setpoint->velocity.z - state->velocity.z);
 	
@@ -101,12 +107,18 @@ static void velocityController(float* thrust, attitude_data *attitude, expect_da
 
 void positionController(float* thrust, attitude_data *attitude, expect_data *setpoint, const self_data *state, float dt)                                                
 {	
+	/**
+	setpoint->mode.x = modeDisable;
+	setpoint->mode.y = modeDisable;		
+				setpoint->mode.z = modeAbs;		
+
+	
 	if (setpoint->mode.x == modeAbs || setpoint->mode.y == modeAbs)
 	{
 		setpoint->velocity.x = 0.1f * pidUpdate(&pidX, setpoint->position.x - state->position.x);
 		setpoint->velocity.y = 0.1f * pidUpdate(&pidY, setpoint->position.y - state->position.y);
 	}
-	
+	*/
 	if (setpoint->mode.z == modeAbs)
 	{
 		setpoint->velocity.z = pidUpdate(&pidZ, setpoint->position.z - state->position.z);

@@ -44,8 +44,8 @@ void MPU_IIC_Start(void)
 {	
 	  SDA_OUT();
   	SCL_OUT(); // todo 一般没有这个？
-    I2C_SDA_UP;
-    I2C_SCL_UP;
+    HAL_GPIO_WritePin(MPU_IIC_GPIO,MPU_IIC_SDA,GPIO_PIN_SET); 
+    HAL_GPIO_WritePin(MPU_IIC_GPIO,MPU_IIC_SCL,GPIO_PIN_SET);
     MPU_IIC_Delay();
     I2C_SDA_LOW;        
     MPU_IIC_Delay();

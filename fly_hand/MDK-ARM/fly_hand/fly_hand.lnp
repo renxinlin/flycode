@@ -31,7 +31,7 @@
 "fly_hand\nrf24l01.o"
 "fly_hand\iic.o"
 "fly_hand\oled.o"
---strict --scatter "fly_hand\fly_hand.sct"
+--library_type=microlib --strict --scatter "fly_hand\fly_hand.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "fly_hand.map" -o fly_hand\fly_hand.axf

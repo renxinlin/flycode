@@ -73,7 +73,7 @@ void commanderTask(void* param)
 		}
 		*/
 		// 去除了中间的死区和边缘的死区
-		ADCtoFlyDataPercent(&percent);
+	//	ADCtoFlyDataPercent(&percent);
 		
 		//THRUST
 		/*

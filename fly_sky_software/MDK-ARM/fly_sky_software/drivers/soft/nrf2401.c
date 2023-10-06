@@ -1,4 +1,8 @@
 /***************************************************************************************
+
+https://blog.csdn.net/ilovezhuanxin/article/details/131797100
+https://github.com/taejin-seong/STM32F103XX-Module-Libraries/blob/master/stm32f103_fw_module/src/hw/driver/nrf24l01.c
+https://github.com/J20RC/STM32_RC_Transmitter/blob/master/software/User/main.c
                                       声 明
     本项目代码仅供个人学习使用，可以自由移植修改，但必须保留此声明信息。移植过程中出现
 其他不可估量的BUG，天际智联不负任何责任。请勿商用！
@@ -52,10 +56,8 @@ void NRF24L01_Config(void);
 void NRF_GetAddr(void);
 void Remote_Data_ReceiveAnalysis(void);
 
-void floatToBytes(float value, uint8_t* byteArray, uint32_t startIndex) ;
-
-float bytesToFloat(uint8_t* byteArray, uint32_t startIndex) ;
-/*****************************************************************************
+ 
+ /*****************************************************************************
 *函  数：void NRF24l01_Init(void)
 *功  能：NRF引脚GPIO初始化
 *参  数：无
@@ -136,7 +138,7 @@ uint8_t NRF24L01_Write_Buf(uint8_t reg, uint8_t *pBuf, uint8_t len)
 	{
     status = HAL_SPI_Transmit(&hspi1, pBuf, 1, HAL_MAX_DELAY);
 		if (status != HAL_OK) {
-				printf("HAL_OK not success2 " );
+				printf("NRF24L01_Write_Buf not success2 " );
 				NRF_SCN_HIGH;
 				return status;
 		}
@@ -165,7 +167,7 @@ uint8_t NRF24L01_Read_Buf(uint8_t reg, uint8_t *pBuf, uint8_t len)
 	{
     status = HAL_SPI_Receive(&hspi1, pBuf, 1, HAL_MAX_DELAY);
 	  if (status != HAL_OK) {
-				printf("HAL_OK not success " );
+				printf("NRF24L01_Read_Buf not success \r\n			" );
 				NRF_SCN_HIGH;
 				return status;
 		}
@@ -190,7 +192,7 @@ void NRFset_Mode(uint8_t mode)
 	  NRF24l01_write_reg(W_REGISTER+CONFIG,IT_TX);
     NRF24l01_write_reg(W_REGISTER+STATUS,0X7E); //清除所有中断,防止一进去发送模式就触发中断	
 	  NRF_CE_HIGH;
-	 // delay_us(15);
+	  delay_us(15);
 	}
 	else
 	{
@@ -215,14 +217,15 @@ void NRF24L01_Config(void)
 	NRF_CE_LOW;
 	NRF24l01_write_reg(W_REGISTER+SETUP_AW, 0x03); //配置通信地址的长度，默认值时0x03,即地址长度为5字节
 	NRF24L01_Write_Buf(W_REGISTER+TX_ADDR,(uint8_t*)TX_ADDRESS,TX_ADR_WIDTH); //写TX节点地址 
-	NRF24L01_Write_Buf(W_REGISTER+RX_ADDR_P0,(uint8_t*)TX_ADDRESS,RX_ADR_WIDTH); //设置TX节点地址,主要为了使能ACK
+	NRF24L01_Write_Buf(W_REGISTER+RX_ADDR_P0,(uint8_t*)RX_ADDRESS,RX_ADR_WIDTH); //设置TX节点地址,主要为了使能ACK
 	NRF24l01_write_reg(W_REGISTER+SETUP_RETR,0x1A); //设置自动重发间隔时间:500us + 86us;最大自动重发次数:10次 0x1A
 	
 	NRF24l01_write_reg(W_REGISTER+EN_RXADDR,0x01);//使能通道0的接收地址  
 	NRF24l01_write_reg(W_REGISTER+EN_AA,0x01); //使能通道0自动应答
+	
 	NRF24l01_write_reg(W_REGISTER+RX_PW_P0,RX_PAYLO_WIDTH);//选择通道0的有效数据宽度  
 	NRF24L01_Write_Buf(W_REGISTER+RX_ADDR_P0,(uint8_t*)RX_ADDRESS,RX_ADR_WIDTH); //写RX节点地址
-	NRF24l01_write_reg(W_REGISTER+RF_CH,30); //设置RF通道为40hz(1-64Hz都可以)
+	NRF24l01_write_reg(W_REGISTER+RF_CH,40); //设置RF通道为40hz(1-64Hz都可以)
 	NRF24l01_write_reg(W_REGISTER+RF_SETUP,0x27); //设置TX发射参数,0db增益,2Mbps,低噪声增益关闭 （注意：低噪声增益关闭/开启直接影响通信,要开启都开启，要关闭都关闭0x0f）0x07
 	
 	NRFset_Mode(IT_RX); //默认为接收模式
@@ -241,9 +244,9 @@ void NRF24L01_TxPacket(uint8_t *txbuf)
 {
 	NRF_CE_LOW;	
 	NRF24L01_Write_Buf(W_REGISTER+TX_ADDR,(uint8_t*)TX_ADDRESS,TX_ADR_WIDTH);  //写TX节点地址 
-	NRF24L01_Write_Buf(W_REGISTER+RX_ADDR_P0,(uint8_t*)TX_ADDRESS,RX_ADR_WIDTH); //设置TX节点地址,主要为了使能ACK
+	NRF24L01_Write_Buf(W_REGISTER+RX_ADDR_P0,(uint8_t*)RX_ADDRESS,RX_ADR_WIDTH); //设置TX节点地址,主要为了使能ACK
 	NRF24L01_Write_Buf(W_RX_PAYLOAD,txbuf,TX_PAYLO_WIDTH); //写数据到TX_BUFF
-  NRF24l01_write_reg(W_REGISTER+CONFIG,0x0e);	//设置为发送模式,开启所有中断
+  NRF24l01_write_reg(W_REGISTER+CONFIG,IT_TX);	//设置为发送模式,开启所有中断
 	NRF24l01_write_reg(W_REGISTER+STATUS,0X7E); //清除所有中断,防止一进去发送模式就触发中断
   NRF_CE_HIGH;
 	delay_us(10);  //CE持续高电平10us
@@ -302,10 +305,12 @@ void NRF24L01_Check(void)
 *返回值：无
 *备  注: NRF的所有中断事件都在次函数中给予相应的处理
 *****************************************************************************/
-void EXTI2_IRQHandler(void)
-{                    
+void EXTI1_IRQHandler(void)
+{           
+	__HAL_GPIO_EXTI_CLEAR_IT(NRF_IRQ);	
 	uint8_t sta; 
-	if(HAL_GPIO_ReadPin(NRF_IRQ_PORT,NRF_IRQ) != RESET )
+	delay_us(1000);
+	if(HAL_GPIO_ReadPin(NRF_IRQ_PORT,NRF_IRQ) == RESET )
 	{
 		 NRF_CE_LOW;//拉低CE，以便读取NRF中STATUS中的数据
 		 sta = NRF24l01_read_reg(R_REGISTER+STATUS); //读取STATUS中的数据，以便判断是由什么中断源触发的IRQ中断
@@ -324,10 +329,10 @@ void EXTI2_IRQHandler(void)
 			// 32
       NRF24L01_RxPacket(NRF_RX_DATA);	
 			NRF24l01_write_reg(W_REGISTER+STATUS,RX_OK); //清除发送完成标志·
+			NRF24l01_write_reg(FLUSH_RX,0xff); //清除TX_FIFO
 
 			// 遥控器数据处理
 			Remote_Data_ReceiveAnalysis();
-
 			//printf("Receive OK!!!!\r\n");	
 		}
 		/* 达到最大重发次数中断  MAX_TX */
@@ -336,15 +341,82 @@ void EXTI2_IRQHandler(void)
 			NRFset_Mode(IT_RX);
 			NRF24l01_write_reg(W_REGISTER+STATUS,MAX_TX);//清除接达到最大重发标志
 			NRF24l01_write_reg(FLUSH_TX,0xff); //清除TX_FIFO
-			//printf("Sent Max Data!!!\r\n"); 
+			// printf("Sent Max Data!!!\r\n"); 
+				HAL_GPIO_TogglePin(led1_GPIO_Port, led1_Pin);
 		}
-		// EXTI_ClearITPendingBit(EXTI_Line2);
-		HAL_NVIC_ClearPendingIRQ(EXTI2_IRQn);
-
-
+   // HAL_NVIC_ClearPendingIRQ(EXTI1_IRQn);
 	}
 }
+ 
 
+
+
+void Remote_Data_Send(void)
+{
+	NRF_TX_DATA[0] =remoter_buffer.type;//帧头
+	NRF_TX_DATA[1] = remoter_buffer.command; //标志位组
+  NRF_TX_DATA[2] =remoter_buffer.rcLock;
+  NRF_TX_DATA[3] =remoter_buffer.ctrlMode;
+  NRF_TX_DATA[4] = remoter_buffer.flightMode;
+	NRF_TX_DATA[5] = remoter_buffer.length;
+  
+	// 分别提取 roll_value 的每个字节，并写入到 NRF_RX_DATA 数组的第6到9位
+	  union {
+        float f;
+        uint8_t bytes[sizeof(float)];
+    } convertR,convertP,convertY,convertT,convertTrimPitch,convertTrimRoll;
+/*
+	 	在某些系统中，将浮点数的内存表示直接转换为整数类型可能导致精度丢失。这可能是由于浮点数内存布局和整数类型内存布局之间的差异。因此，当重新将整数值解释为浮点数时，得到的结果可能不是预期的浮点数值，而是零或其他不准确的值。
+    为了避免这种问题，可以考虑使用更可靠的方法将浮点数转换为字节数组，例如使用联合体或库函数。
+		*/
+  convertR.f = remoter.roll;
+	NRF_TX_DATA[6] = convertR.bytes[3];
+	NRF_TX_DATA[7] = convertR.bytes[2];
+	NRF_TX_DATA[8] = convertR.bytes[1];
+	NRF_TX_DATA[9] = convertR.bytes[0];
+		
+  convertP.f = remoter.pitch;
+	NRF_TX_DATA[10] = convertP.bytes[3];
+	NRF_TX_DATA[11] = convertP.bytes[2];
+	NRF_TX_DATA[12] = convertP.bytes[1];
+	NRF_TX_DATA[13] = convertP.bytes[0];
+		
+   
+  convertY.f = remoter.yaw;
+	NRF_TX_DATA[14] = convertY.bytes[3];
+	NRF_TX_DATA[15] = convertY.bytes[2];
+	NRF_TX_DATA[16] = convertY.bytes[1];
+	NRF_TX_DATA[17] = convertY.bytes[0];
+		
+   
+	convertT.f = remoter.thrust;
+	NRF_TX_DATA[18] = convertT.bytes[3];
+	NRF_TX_DATA[19] = convertT.bytes[2];
+	NRF_TX_DATA[20] = convertT.bytes[1];
+	NRF_TX_DATA[21] = convertT.bytes[0];
+		
+
+
+	convertTrimPitch.f = remoter.trimPitch;
+	NRF_TX_DATA[22] = convertTrimPitch.bytes[3];
+	NRF_TX_DATA[23] = convertTrimPitch.bytes[2];
+	NRF_TX_DATA[24] = convertTrimPitch.bytes[1];
+	NRF_TX_DATA[25] = convertTrimPitch.bytes[0];
+		
+ 
+ 
+	convertTrimRoll.f = remoter.trimRoll;
+	NRF_TX_DATA[26] = convertTrimRoll.bytes[3];
+	NRF_TX_DATA[27] = convertTrimRoll.bytes[2];
+	NRF_TX_DATA[28] = convertTrimRoll.bytes[1];
+	NRF_TX_DATA[29] = convertTrimRoll.bytes[0];
+		
+	NRF_TX_DATA[30] = remoter.checksum;
+	
+	uint8_t dogData = 6;
+	NRF_TX_DATA[31] = dogData;
+	NRF24L01_TxPacket(NRF_TX_DATA);
+}
 
 void Remote_Data_ReceiveAnalysis(void)
 {
@@ -354,21 +426,61 @@ void Remote_Data_ReceiveAnalysis(void)
 	remoter.ctrlMode  = NRF_RX_DATA[3];
 	remoter.flightMode  = NRF_RX_DATA[4];
 	remoter.length  = NRF_RX_DATA[5]; // 有效位 后6位有效 00111111 后6位无效00 000000
-		remoter.roll  = bytesToFloat( NRF_RX_DATA, 6); 
-		remoter.pitch  = bytesToFloat( NRF_RX_DATA, 10); 
-		remoter.yaw  = bytesToFloat( NRF_RX_DATA, 14); 
-		remoter.thrust  = bytesToFloat( NRF_RX_DATA, 18); 
-		remoter.trimPitch  = bytesToFloat( NRF_RX_DATA, 22); 
-		remoter.trimRoll  = bytesToFloat( NRF_RX_DATA, 26); 
-		remoter.checksum  = bytesToFloat( NRF_RX_DATA, 30); 
-		commanderBits.ctrlMode = remoter.ctrlMode ;
+	
+	union {
+		float f;
+    uint8_t bytes[sizeof(float)];
+  } convertR,convertP,convertY,convertT,convertTrimPitch,convertTrimRoll;
+	 
+	convertR.bytes[3] = NRF_RX_DATA[6];
+  convertR.bytes[2] = NRF_RX_DATA[7];
+  convertR.bytes[1] = NRF_RX_DATA[8];
+  convertR.bytes[0] = NRF_RX_DATA[9];
+	
+	convertP.bytes[3] = NRF_RX_DATA[10];
+  convertP.bytes[2] = NRF_RX_DATA[11];
+  convertP.bytes[1] = NRF_RX_DATA[12];
+  convertP.bytes[0] = NRF_RX_DATA[13];
+		
+	convertY.bytes[3] = NRF_RX_DATA[14];
+  convertY.bytes[2] = NRF_RX_DATA[15];
+  convertY.bytes[1] = NRF_RX_DATA[16];
+  convertY.bytes[0] = NRF_RX_DATA[17];
+	
+  convertT.bytes[3] = NRF_RX_DATA[18];
+  convertT.bytes[2] = NRF_RX_DATA[19];
+  convertT.bytes[1] = NRF_RX_DATA[20];
+  convertT.bytes[0] = NRF_RX_DATA[21];
+	
+	convertTrimPitch.bytes[3] = NRF_RX_DATA[22];
+  convertTrimPitch.bytes[2] = NRF_RX_DATA[23];
+  convertTrimPitch.bytes[1] = NRF_RX_DATA[24];
+  convertTrimPitch.bytes[0] = NRF_RX_DATA[25];
+  
+	convertTrimRoll.bytes[3] = NRF_RX_DATA[26];
+  convertTrimRoll.bytes[2] = NRF_RX_DATA[27];
+  convertTrimRoll.bytes[1] = NRF_RX_DATA[28];
+  convertTrimRoll.bytes[0] = NRF_RX_DATA[29];
+	
+	remoter.roll  = convertR.f;
+	remoter.pitch  =convertP.f;
+	remoter.yaw  = convertY.f;
+	remoter.thrust  = convertT.f;
+	remoter.trimPitch  =convertTrimPitch.f;
+	remoter.trimRoll  = convertTrimRoll.f;
+	remoter.checksum  = NRF_RX_DATA[30];
+	
+	commanderBits.ctrlMode = remoter.ctrlMode ;
 	// todo 处理命令
-		commanderBits.keyFlight = 1; 
-		commanderBits.keyLand = 0;
-		commanderBits.emerStop = 0;
-		commanderBits.flightMode = remoter.flightMode; // 有头 1无头
- }
+	commanderBits.keyFlight = 1; 
+	commanderBits.keyLand = 0;
+	commanderBits.emerStop = 0;
+	commanderBits.flightMode = remoter.flightMode; // 有头 1无头
+//	 printf("recive fly r %f p %f y %f \r\n",remoter.roll,remoter.pitch,remoter.yaw);
+}
 
+ 
+  
 /*****************************************************************************
 *函  数：void NRF_GetAddr(void)
 *功  能：给飞机获取上的NRF获取一个地址
@@ -419,19 +531,4 @@ void NRF_Test(void)
 }
 
  
-void floatToBytes(float value, uint8_t* byteArray, uint32_t startIndex) {
-    uint8_t* valueBytes = (uint8_t*)&value;
-    for (int i = 0; i < sizeof(float); i++) {
-        byteArray[startIndex + i] = valueBytes[i];
-    }
-}
-
-float bytesToFloat(uint8_t* byteArray, uint32_t startIndex) {
-    float value;
-    uint8_t* valueBytes = (uint8_t*)&value;
-    for (int i = 0; i < sizeof(float); i++) {
-        valueBytes[i] = byteArray[startIndex + i];
-    }
-    return value;
-}
 

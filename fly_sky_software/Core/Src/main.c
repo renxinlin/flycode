@@ -111,6 +111,7 @@ int main(void)
 	while(MPU_Init()){
 			HAL_GPIO_TogglePin(led1_GPIO_Port, led1_Pin);
 		  printf("canot init mpu\r\n");
+
 	}
 	while(mpu_dmp_init())  //加速度传感器自检
 	{
@@ -152,9 +153,14 @@ int main(void)
 			if(tick>1){
 				tick = 0;
 			}
-			if(withBias){
-				powerControl(&control_info);	
-			}
+			// 飞机解锁 1为解锁 0默认上锁
+			control_info.pitch = withBias && remoter.rcLock == 1 ? control_info.pitch : 0;
+			control_info.roll = withBias && remoter.rcLock == 1 ? control_info.roll : 0;
+			control_info.yaw = withBias && remoter.rcLock == 1 ? control_info.yaw : 0;
+			control_info.thrust = withBias && remoter.rcLock == 1 ? control_info.thrust : 0;
+
+			powerControl(&control_info);
+
 		}
 		if(counter_5ms>=5){
 				counter_5ms = 0;
@@ -164,7 +170,8 @@ int main(void)
 			sensors.baro.temperature = (float) temperature;
 			sensors.baro.pressure = (float) pressure;
 			sensors.baro.asl = (float) asl;
-
+			// 2200
+			// printf("height is %f \r\n",sensors.baro.asl);
 		}
 		if(counter_4ms>=4){
 			counter_4ms = 0;
@@ -176,12 +183,15 @@ int main(void)
 					//printf("相对加速度 %f  \r\n",sensors.acc.z);相对加速度 0.992496  
 			}	
 			// baseacc is 0.999919
+			// 估算自身高度
 		  positionEstimate(&sensors, &self, 0.004f);
 
 		}
 		if(counter_10ms>=10){
 			counter_10ms = 0;
 			commanderGetSetpoint(&expect_set_point, &self);
+
+			// 遥控器数据处理 
 		}
 		if(counter_20ms>=20){
 			counter_20ms = 0;
@@ -189,49 +199,18 @@ int main(void)
 		}
 		if(counter_50ms>=50){
 				counter_50ms = 0;
-			if(withBias){
-					HAL_GPIO_TogglePin(led1_GPIO_Port, led1_Pin);
-			}
-			// 每5s  自动调试  pid+50
-		}
-		
-		// printf("初始化压强 %f  \r\n",FBM.InitPress);
-		// printf("相对高度 %f  \r\n",FBM.Altitude);
-    /* 
-		 
-		*/
-			// 参考现有源码
-			// 调查缓冲区实现
-			// 实现缓冲区
-			// 实现数据结构转换对象 
-			// 阅读stm32 完毕
-			// 需要构建一个定时器实现cpu任务切换，不在引入os,减小cm3内核的压力
-			//
-			// 准备pid
-			// 准备pmw
-		/* 
-			  while(1){
-					if(mpu_dmp_get_data(&pitch,&roll,&yaw)==0){      
-			//		temp=MPU_Get_Temperature();								//得到温度值
-			//		MPU_Get_Accelerometer(&aacx,&aacy,&aacz);	//得到加速度传感器数据
-				//	MPU_Get_Gyroscope(&gyrox,&gyroy,&gyroz);	//得到陀螺仪数据
-				 		printf("三轴角度：%f-%f-%f\r\n",pitch,roll,yaw);
-			//		printf("三轴加速度：%d-%d-%d\r\n",aacx,aacy,aacz);
-			//		printf("三轴角角度：%d-%d-%d\r\n",gyrox,gyroy,gyroz);
-						HAL_GPIO_TogglePin(led1_GPIO_Port, led1_Pin);
-						HAL_Delay(500);
-					}
-					 */	
-				//}
-					//printf("z\r\n");
+				 Remote_Data_Send();
+			//if(withBias){
+			//		HAL_GPIO_TogglePin(led1_GPIO_Port, led1_Pin);
 			//}
-		}
+ 		}
+	}
   /* USER CODE END 3 */
 }
 
 	void	configParamInit(void){
 		// pid初始化
-		configParam.pidAngle.roll.kp=5.0; // 8
+		configParam.pidAngle.roll.kp=5.0; // 5 1 0
 		configParam.pidAngle.roll.ki=1.0;
 		configParam.pidAngle.roll.kd=0.0;
 		
@@ -239,9 +218,7 @@ int main(void)
 		configParam.pidAngle.pitch.ki=1.0;
 		configParam.pidAngle.pitch.kd=0.0;
 		
-		configParam.pidAngle.yaw.kp=0.0;//  20
-		configParam.pidAngle.yaw.ki=0.0;
-		configParam.pidAngle.yaw.kd=1.5;
+
 /////////////////////
 		configParam.pidRate.roll.kp=110.0; // 
 		configParam.pidRate.roll.ki=2.0;
@@ -278,23 +255,38 @@ int main(void)
 		configParam.pidRate.pitch.ki=2.0;
 		configParam.pidRate.pitch.kd=2.0; // 6.5
 		
+		configParam.pidAngle.yaw.kp=0.0;//  20
+		configParam.pidAngle.yaw.ki=0.0;
+		configParam.pidAngle.yaw.kd=1.5;
+		
 		configParam.pidRate.yaw.kp=1; // 200 80
 		configParam.pidRate.yaw.ki=0; // 18.5
 		configParam.pidRate.yaw.kd=0.0; // 0.0
+		
+		configParam.pidPos.z.kp=6.0;
+		configParam.pidPos.z.ki=0.0;
+		configParam.pidPos.z.kd=4.5;
+				
+		configParam.pidPos.vz.kp=100.0;
+		configParam.pidPos.vz.ki=150.0;
+		configParam.pidPos.vz.kd=10.0;
+		
+				
+		// 基础油门
+		configParam.thrustBase=(65535-1)/2 ;
+		// 偏置
+		configParam.trimR=0.f;
+		configParam.trimP=0.f;
 		/////////////////////////////////////////////  110 2 2
 		
 		configParam.pidPos.x.kp=4.0;
 		configParam.pidPos.x.ki=0.0;
 		configParam.pidPos.x.kd=0.6;
-	
 		configParam.pidPos.y.kp=4.0;
 		configParam.pidPos.y.ki=0.0;
 		configParam.pidPos.y.kd=0.6;
 				
-		configParam.pidPos.z.kp=6.0;
-		configParam.pidPos.z.ki=0.0;
-		configParam.pidPos.z.kd=4.5;
-				
+
 		configParam.pidPos.vx.kp=4.5;
 		configParam.pidPos.vx.ki=0.0;
 		configParam.pidPos.vx.kd=0.0;
@@ -303,15 +295,7 @@ int main(void)
 		configParam.pidPos.vy.ki=0.0;
 		configParam.pidPos.vy.kd=0.0;
 		
-		configParam.pidPos.vz.kp=100.0;
-		configParam.pidPos.vz.ki=150.0;
-		configParam.pidPos.vz.kd=10.0;
-		
-		// 基础油门
-		configParam.thrustBase=(65535-1)/2 ;
-		// 偏置
-		configParam.trimR=0.f;
-		configParam.trimP=0.f;
+
 		
 	}
 

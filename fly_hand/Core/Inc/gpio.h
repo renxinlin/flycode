@@ -36,6 +36,11 @@ extern "C" {
 #define IRQ_Pin GPIO_PIN_1
 #define IRQ_GPIO_Port GPIOB
 /* USER CODE END Includes */
+#define BUTTON1_PIN GPIO_PIN_12
+#define BUTTON2_PIN GPIO_PIN_13
+#define BUTTON3_PIN GPIO_PIN_14
+#define BUTTON4_PIN GPIO_PIN_15
+#define BUTTON_GPIO_PORT GPIOB
 
 /* USER CODE BEGIN Private defines */
 
@@ -45,6 +50,8 @@ void MX_GPIO_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 
+ 
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

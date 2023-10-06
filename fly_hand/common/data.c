@@ -9,5 +9,7 @@ self_data self; // 飞机自身位姿信息
 ctrlval_data ctrlValLpf  = {0.f}; // 最终控制数据
 uint8_t RCLock = 1; // 1 锁定 0 解锁
 uint8_t TrimFlag = 0;  // 微调模式1 时 0否
+uint8_t trim = 0;  // 微调模式1 时 0否
+uint8_t pidAuto = 0;  // 调节pid开关 关闭调节p,1调节r 编写程序自动调整
 
 #endif 

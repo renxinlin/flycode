@@ -22,16 +22,42 @@ Dialog DLL:      TCM.DLL V1.36.2.0
  
 <h2>Project:</h2>
 C:\Mac\Home\Desktop\gitprocess\fly_hand\MDK-ARM\fly_hand.uvprojx
-Project File Date:  07/19/2023
+Project File Date:  09/18/2023
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'fly_hand'
+compiling adc.c...
+../Core/Src/adc.c(61): warning:  #177-D: variable "sConfig"  was declared but never referenced
+    ADC_ChannelConfTypeDef sConfig = {0};
+../Core/Src/adc.c(47): warning:  #177-D: variable "isInit"  was declared but never referenced
+  static uint8_t isInit;
+../Core/Src/adc.c(48): warning:  #177-D: variable "jsParam"  was declared but never referenced
+  static joystickParam_t* jsParam;
+../Core/Src/adc.c: 3 warnings, 0 errors
+compiling gpio.c...
+../Core/Src/gpio.c(103): warning:  #550-D: variable "key_initStruct"  was set but never used
+  	GPIO_InitTypeDef key_initStruct;
+../Core/Src/gpio.c: 1 warning, 0 errors
 compiling main.c...
+compiling data.c...
+compiling command.c...
+..\Core\Src\command.c(44): warning:  #550-D: variable "max_thrust"  was set but never used
+  	float max_thrust = LOW_SPEED_THRUST;
+..\Core\Src\command.c: 1 warning, 0 errors
+compiling usart.c...
+compiling nrf24l01.c...
+..\chipdriver\nrf24l01.c(67): warning:  #177-D: variable "GPIO_InitStructure"  was declared but never referenced
+    GPIO_InitTypeDef GPIO_InitStructure;
+..\chipdriver\nrf24l01.c(91): warning:  #177-D: variable "buffer"  was declared but never referenced
+  	uint8_t buffer;
+..\chipdriver\nrf24l01.c(130): warning:  #177-D: variable "buffer"  was declared but never referenced
+    uint8_t buffer;
+..\chipdriver\nrf24l01.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=11758 RO-data=322 RW-data=48 ZI-data=3064  
+Program Size: Code=11960 RO-data=328 RW-data=48 ZI-data=1560  
 FromELF: creating hex file...
-"fly_hand\fly_hand.axf" - 0 Error(s), 0 Warning(s).
+"fly_hand\fly_hand.axf" - 0 Error(s), 8 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -55,7 +81,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.6.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>

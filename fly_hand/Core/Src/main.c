@@ -26,6 +26,7 @@
 #include "oled.h"
 #include "stdio.h"
 #include "nrf24l01.h"
+#include "stm32f1xx_hal.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -54,6 +55,7 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void toFlyData(int32_t *thrust_value,int32_t *roll_value,int32_t *pitch_value,int32_t *yaw_value);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -69,6 +71,8 @@ void SystemClock_Config(void);
   */
 int main(void)
 {
+			 uint32_t adc_values[4]; // 保存四个通道的ADC值
+
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -85,36 +89,88 @@ int main(void)
   /* Configure the system clock */
   SystemClock_Config();
 
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
-
+ 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_ADC1_Init();
   MX_SPI1_Init();
-
-  MX_USART1_UART_Init();
-  /* USER CODE BEGIN 2 */
-		printf("3\r\n");
-
   usTickInit();
-			printf("4\r\n");
-
-	OLED_Init();
-				printf("5\r\n");
-
-	NRF24l01_Init();
- 
-					printf("6\r\n");
+  /* USER CODE BEGIN 2 */
+	// OLED_Init();
+	NRF24l01_Init(); 
+	MX_USART1_UART_Init();
 
   /* USER CODE END 2 */
-
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+	HAL_ADC_Start(&hadc1);
+
   while (1)
   {
     /* USER CODE END WHILE */
+	//	OLED_Allfill();
+		HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+		 // 启动ADC转换
+    // 等待转换完成
+
+    // 读取转换结果
+		ADC_ChannelConfTypeDef sConfig;
+    sConfig.Channel = ADC_CHANNEL_0;
+    sConfig.Rank = 1;
+    sConfig.SamplingTime = ADC_SAMPLETIME_71CYCLES_5;
+    HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+		HAL_ADC_Start(&hadc1);
+    HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+    adc_values[0] =(int32_t) HAL_ADC_GetValue(&hadc1); // 油门【0-4000】~【2000 [-100,100] -2000】 增量 
+		
+		sConfig.Channel = ADC_CHANNEL_1;
+    HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+    HAL_ADC_Start(&hadc1);
+		HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+		adc_values[1] =(int32_t) HAL_ADC_GetValue(&hadc1); // roll [0 4025] [45 [-2,2] -45]
+	  
+		sConfig.Channel = ADC_CHANNEL_2;
+    HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+    HAL_ADC_Start(&hadc1);
+		HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+    adc_values[2] =(int32_t) HAL_ADC_GetValue(&hadc1); // pitch [0 4025] [45 [-2,2] -45]
+ 	  
+		sConfig.Channel = ADC_CHANNEL_3;
+    HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+		HAL_ADC_Start(&hadc1);
+		HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+		adc_values[3] = (int32_t)HAL_ADC_GetValue(&hadc1); //  yaw [4021 0] 增量[-45 45]
+	  
+	  int32_t	roll_value = adc_values[0] ;
+	  int32_t	pitch_value  = adc_values[1] ;
+	  int32_t	yaw_value = adc_values[2] ;
+	  int32_t	thrust_value = adc_values[3] ;
+
+		toFlyData(&thrust_value,&roll_value,&pitch_value,&yaw_value);
+		// 油门作为高度控制在0~5m,默认80cm
+	 
+		if(trim){
+			//  微调开关打开 adc通道确认  确认使用美国手还是日本手控制遥控器
+			remoter_buffer.trimRoll = roll_value;
+			remoter_buffer.trimPitch = pitch_value;
+			remoter_buffer.yaw += 0;
+			// todo 基础油门 飞机定高油门
+			remoter_buffer.thrust += 0;
+
+		}else{
+			remoter_buffer.pitch = pitch_value;
+			remoter_buffer.roll = roll_value;
+			remoter_buffer.yaw += yaw_value;
+			// 油门作为高度,回中后飞机高度保持不变,因此油门采用增量
+			remoter_buffer.thrust += thrust_value;
+		}
+			// 发送缓冲区数据到飞机
+			// 处理按键中断 1 飞机开锁与关锁 2是否为微调模式
+			// 显示器上翻和下翻
+		// nrf发送数据
+		
+		Remote_Data_Send();
+		HAL_Delay(10);
 
     /* USER CODE BEGIN 3 */
   }
@@ -129,7 +185,7 @@ void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+ // RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
@@ -159,17 +215,36 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
-  PeriphClkInit.AdcClockSelection = RCC_ADCPCLK2_DIV2;
-  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
-  {
-    Error_Handler();
-  }
+//  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
+ // PeriphClkInit.AdcClockSelection = RCC_ADCPCLK2_DIV2;
+ // if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+  //{
+ //   Error_Handler();
+//  }
+}
+void toFlyData(int32_t *thrust_value,int32_t *roll_value,int32_t *pitch_value,int32_t *yaw_value){
+		// 0 == 45*45
+		int up = 2025 + 3*45;
+		int down = 2025-3*45;
+		if(*thrust_value  <= up && *thrust_value  >= down ){
+			*thrust_value = 2025;
+		}
+		if(*roll_value  <= up && *roll_value  >= down ){
+			*roll_value = 2025;
+		}
+		if(*pitch_value  <= up && *pitch_value  >= down ){
+			*pitch_value = 2025;
+		}
+		if(*yaw_value  <= up && *yaw_value  >= down ){
+			*yaw_value = 2025;
+		}
+		// 0 ~ 4050
+		*roll_value = ((2025-*roll_value)/45);
+		*pitch_value = ((2025-*pitch_value)/45);
+		*yaw_value = ((2025-*yaw_value)/45);
+		*thrust_value = ((2025-*thrust_value)/450.0f); // 油门归一化之后还需要乘以一个缩放因子 -45 ~ 45 除去10后，飞机每次升降大约【5cm】
 }
 
-/* USER CODE BEGIN 4 */
-
-/* USER CODE END 4 */
 
 /**
   * @brief  This function is executed in case of error occurrence.

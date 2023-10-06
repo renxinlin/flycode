@@ -304,6 +304,8 @@ extern commanderBits_data commanderBits;
 extern self_data self;
 extern remoter_data remoter; // 四轴上传数据
 extern remoter_data remoter_buffer; // 遥控发送数据
+extern uint8_t trim ;  // 微调模式1 是 0否
+extern uint8_t pidAuto ; 
 
 extern configParam_data configParam; // pid持久化的数据
 extern uint8_t RCLock;

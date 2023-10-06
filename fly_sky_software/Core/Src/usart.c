@@ -148,7 +148,10 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		if((buffer[bufferIndex-1] == 0x0A)&&(buffer[bufferIndex-2] == 0x0D)) //判断结束位
 		{
 			HAL_UART_Transmit(&huart1, (uint8_t *)&buffer, bufferIndex,0xFFFF); //将收到的信息发送出去
-            while(HAL_UART_GetState(&huart1) == HAL_UART_STATE_BUSY_TX);//检测UART发送结束
+			
+			// 内环pid 调节数据转储并通过nrf24l01发送飞机
+			
+      while(HAL_UART_GetState(&huart1) == HAL_UART_STATE_BUSY_TX);//检测UART发送结束
 			bufferIndex = 0;
 		}
 	}

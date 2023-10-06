@@ -199,5 +199,30 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /* USER CODE BEGIN 1 */
+void EXTI15_10_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI15_10_IRQn 0 */
 
+  /* USER CODE END EXTI15_10_IRQn 0 */
+	// °´¼üÖÐ¶Ï
+  HAL_GPIO_EXTI_IRQHandler(BUTTON1_PIN);
+  HAL_GPIO_EXTI_IRQHandler(BUTTON2_PIN);
+  HAL_GPIO_EXTI_IRQHandler(BUTTON3_PIN);
+  HAL_GPIO_EXTI_IRQHandler(BUTTON4_PIN);
+  /* USER CODE BEGIN EXTI15_10_IRQn 1 */
+
+  /* USER CODE END EXTI15_10_IRQn 1 */
+}
+
+
+void USART1_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART1_IRQn 0 */
+
+  /* USER CODE END USART1_IRQn 0 */
+  HAL_UART_IRQHandler(&huart1);
+  /* USER CODE BEGIN USART1_IRQn 1 */
+
+  /* USER CODE END USART1_IRQn 1 */
+}
 /* USER CODE END 1 */

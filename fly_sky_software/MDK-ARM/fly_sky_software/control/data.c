@@ -3,6 +3,8 @@
 #include "data.h"
 configParam_data configParam; // pid持久化的数据
 remoter_data remoter; /* 遥控器数据  */
+remoter_data remoter_buffer; // 遥控器发送上位机数据
+
 /**
 	u8 ctrlMode	 	bit0  1=定高模式 0=手动模式   bit1  1=定点模式
 	u8 keyFlight 	 	bit2 一键起飞

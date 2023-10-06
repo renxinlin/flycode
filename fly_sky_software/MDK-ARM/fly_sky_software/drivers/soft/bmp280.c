@@ -236,13 +236,11 @@ void BMP280_Init()
     u8Status = BMP280_ReadReg(BMP280_REGISTER_STATUS);
     if(u8ChipID == 0x58)
     {
-//        printf("\r\nBMP280 initial successful : ChipID [0x%x] CtrlMod [0x%x] Status [0x%x] \r\n", u8ChipID,u8CtrlMod,u8Status);
-				// 0xff BMP280_WriteReg(BMP280_REGISTER_CONTROL, )
-
-
 				BMP280_WriteReg(BMP280_REGISTER_CONTROL, 0xFF); //ctrl_meas register
         BMP280_WriteReg(BMP280_REGISTER_CONFIG, 0x0C);  //config register
         BMP280_Read_Calibration();
+			    		printf("\r\nBMP280 initial success : ChipID [0x%x] CtrlMod [0x%x] Status [0x%x] \r\n", u8ChipID,u8CtrlMod,u8Status);
+
     }
     else
     {

@@ -19,7 +19,9 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "usart.h"
+#include "data.h"
 #include "stdio.h"
+#include <stdint.h>
 
 /* USER CODE BEGIN 0 */
 #define MAX_USART_BUFFER 1
@@ -42,7 +44,7 @@ uint8_t bufferIndex = 0;		//接收缓冲计数
 /* USER CODE END 0 */
 
 UART_HandleTypeDef huart1;
-
+void parseData(const uint8_t* buffer, uint8_t length, uint8_t* a, uint8_t* b, uint8_t* c);
 /* USART1 init function */
 
 void MX_USART1_UART_Init(void)
@@ -68,7 +70,7 @@ void MX_USART1_UART_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN USART1_Init 2 */
-	HAL_UART_Receive_IT(&huart1, irq_buffer, 1);
+	HAL_UART_Receive_IT(&huart1, (uint8_t *)&irq_buffer, 1);
 
   /* USER CODE END USART1_Init 2 */
 
@@ -137,6 +139,7 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
+
 	if(bufferIndex >= 255){
 		//溢出判断
 		bufferIndex = 0;
@@ -146,12 +149,53 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		buffer[bufferIndex++] = irq_buffer[0];   //接收数据转存
 		if((buffer[bufferIndex-1] == 0x0A)&&(buffer[bufferIndex-2] == 0x0D)) //判断结束位
 		{
-			HAL_UART_Transmit(&huart1, (uint8_t *)&buffer, bufferIndex,0xFFFF); //将收到的信息发送出去
-            while(HAL_UART_GetState(&huart1) == HAL_UART_STATE_BUSY_TX);//检测UART发送结束
+			// p i d 
+			parseData(buffer, bufferIndex+1, &(remoter_buffer.type), &(remoter_buffer.length), &(remoter_buffer.checksum));
+
+			// HAL_UART_Transmit(&huart1, (uint8_t *)&buffer, bufferIndex,0xFFFF); //将收到的信息发送出去
+      // while(HAL_UART_GetState(&huart1) == HAL_UART_STATE_BUSY_TX);//检测UART发送结束
+			//printf("remoter.type is %d ",remoter.type);
+			//printf("remoter.type is %d ",remoter.length);
+			//printf("remoter.type is %d ",remoter.checksum);
 			bufferIndex = 0;
 		}
 	}
 	// 重新使能中断
-	HAL_UART_Receive_IT(&huart1, irq_buffer, 1);
+		HAL_UART_Receive_IT(&huart1, (uint8_t *)&irq_buffer, 1);
+}
+
+
+void parseData(const uint8_t* buffer, uint8_t length, uint8_t* a, uint8_t* b, uint8_t* c) {
+    uint8_t i = 0;
+    // 跳过空格和换行符
+    while (i < length && (buffer[i] == ' ' || buffer[i] == '\r' || buffer[i] == '\n')) {
+        i++;
+    }
+    // 解析第一个数字
+    *a = 0;
+    while (i < length && buffer[i] >= '0' && buffer[i] <= '9') {
+        *a = (*a) * 10 + buffer[i] - '0';
+        i++;
+    }
+    // 跳过空格和换行符
+    while (i < length && (buffer[i] == ' ' || buffer[i] == '\r' || buffer[i] == '\n')) {
+        i++;
+    }
+    // 解析第二个数字
+    *b = 0;
+    while (i < length && buffer[i] >= '0' && buffer[i] <= '9') {
+        *b = (*b) * 10 + buffer[i] - '0';
+        i++;
+    }
+    // 跳过空格和换行符
+    while (i < length && (buffer[i] == ' ' || buffer[i] == '\r' || buffer[i] == '\n')) {
+        i++;
+    }
+    // 解析第三个数字
+    *c = 0;
+    while (i < length && buffer[i] >= '0' && buffer[i] <= '9') {
+        *c = (*c) * 10 + buffer[i] - '0';
+        i++;
+    }
 }
 /* USER CODE END 1 */

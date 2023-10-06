@@ -54,26 +54,31 @@ void stateControl(control_data *control, sensor_data *sensors, self_data *self, 
 {	
 	// 最终的pid控制
 	// 传感器数据
-	//printf(" sensors data is %f ,%f,%f",sensors->gyro.x,sensors->gyro.y,sensors->gyro.z );
 	// 四轴自身数据
-	//printf(" self data is %f ,%f,%f",self->attitude.x,self->attitude.y,self->attitude.z);
+	// printf(" self data is %f ,%f,%f",setpoint->attitude.x,setpoint->attitude.y,setpoint->attitude.z);
 	// 期望的命令数据
-	/**
-	if (RATE_DO_EXECUTE(POSITION_PID_RATE, tick))
-	{
-		if (setpoint->mode.x != modeDisable || setpoint->mode.y != modeDisable || setpoint->mode.z != modeDisable)
-		{
-			positionController(&actualThrust, &attitudeDesired, setpoint, self, POSITION_PID_DT);
-		}
-	}
-*/
-	//角度环（外环）
+	
 	if (tick >=1)
 	{
+			//位置与速度环（外环）
+
+		if (setpoint->mode.x != modeDisable || setpoint->mode.y != modeDisable || setpoint->mode.z != modeDisable)
+		{
+			
+			positionController(&actualThrust, &attitudeDesired, setpoint, self, POSITION_PID_DT);
+		}
+			//角度环（外环）
+
 		if (setpoint->mode.z == modeDisable)
 		{
 			actualThrust = setpoint->thrust;
 		}
+		
+		
+		/**
+				位置环不参与直接使用遥控器值
+	
+		*/
 		if (setpoint->mode.x == modeDisable || setpoint->mode.y == modeDisable) 
 		{
 			attitudeDesired.x = setpoint->attitude.x;
@@ -82,9 +87,8 @@ void stateControl(control_data *control, sensor_data *sensors, self_data *self, 
 			
 		attitudeDesired.x += configParam.trimR;	//叠加微调值
 		attitudeDesired.y += configParam.trimP;		
-		attitudeDesired.x=0;
-		attitudeDesired.y=0;
-		attitudeDesired.z=0;
+		// yaw 位置环不参与直接使用遥控器值
+		attitudeDesired.z=setpoint->attitude.z;
 		attitudeAnglePID(&self->attitude, &attitudeDesired, &rateDesired);
 	}
 
@@ -102,11 +106,12 @@ void stateControl(control_data *control, sensor_data *sensors, self_data *self, 
 		}*/
 		// 角速度 期望内环准备开始调试
 		attitudeRatePID(&sensors->gyro, &rateDesired, control);
-		// 油门 基础油门为pmw一半的高精度数据
+		//  todo 油门 和yaw采用pid结果
+	// 要求高度环为1m~2m 飞机就在1到2的高度飞行，其次，初始高度设置为1m就是 100~150~200
+	  printf("加入高度环后油门变换 %f \r\n",actualThrust);
 		actualThrust = (65535-1)/2;
 		control->thrust = actualThrust;	
 		control->yaw = 0;  // 调整内环的时候yaw不参与处理
-		//printf(" thrust mode.output is thrust = %f,roll = %d,%d,%d \r\n",control->thrust,control->roll,control->pitch,control->yaw);
 
 	if (control->thrust < 5.f)
 	{			
@@ -155,8 +160,7 @@ void powerControl(control_data *control)	/*功率输出控制*/
 	
 	俯仰
 	
-	bug:角速度和角度的方向相反，现在时根据角速度规划的四轴pmw输出
-		公式与pid输出正负号密切相关
+ 		公式与pid输出正负号密切相关
 	*/
 	motorPWM.m1 = limitThrust(control->thrust + r - p + control->yaw);
 	

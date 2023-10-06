@@ -285,7 +285,8 @@ typedef struct
 extern ctrlval_data ctrlValLpf;
 extern commanderBits_data commanderBits;
 extern self_data self;
-extern remoter_data remoter;
+extern remoter_data remoter; // 遥控器下传飞机数据
+extern remoter_data remoter_buffer; // 飞机上传遥控器数据
 extern configParam_data configParam; // pid持久化的数据
 extern expect_data expect_set_point; // 根据遥控器获得的期望设置目标数据
 extern control_data control_info; // 根据遥控器获得的期望设置目标数据
