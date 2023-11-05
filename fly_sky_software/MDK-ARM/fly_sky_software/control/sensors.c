@@ -66,7 +66,8 @@ uint8_t sensorsDataGet(void)
 			// ÍÓÂÝÒÇÆ«ÖÃ
 			processAccScale(accRaw.x, accRaw.y, accRaw.z);	/*¼ÆËãaccScale*/
 			sensors.gyro.x =  (gyroRaw.x - gyroBias.x) * SENSORS_DEG_PER_LSB_CFG;	/*µ¥Î» ¡ã/s */
-			sensors.gyro.y =  (gyroRaw.y - gyroBias.y) * SENSORS_DEG_PER_LSB_CFG;
+		//	sensors.gyro.y =  (gyroRaw.y - gyroBias.y) * SENSORS_DEG_PER_LSB_CFG;
+			sensors.gyro.y =  gyroRaw.y * SENSORS_DEG_PER_LSB_CFG;
 			sensors.gyro.z =  (gyroRaw.z - gyroBias.z) * SENSORS_DEG_PER_LSB_CFG;
 			
 			applyGyroLpf(gyroLpf, &sensors.gyro);	

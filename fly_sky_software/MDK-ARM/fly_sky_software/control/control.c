@@ -60,21 +60,16 @@ void stateControl(control_data *control, sensor_data *sensors, self_data *self, 
 	
 	if (tick >=1)
 	{
-			//位置与速度环（外环）
 
-		if (setpoint->mode.x != modeDisable || setpoint->mode.y != modeDisable || setpoint->mode.z != modeDisable)
+		if (setpoint->mode.z != modeDisable)
 		{
-			
+			// 高度与速度环（外环）
 			positionController(&actualThrust, &attitudeDesired, setpoint, self, POSITION_PID_DT);
 		}
-			//角度环（外环）
-
 		if (setpoint->mode.z == modeDisable)
 		{
 			actualThrust = setpoint->thrust;
 		}
-		
-		
 		/**
 				位置环不参与直接使用遥控器值
 	
@@ -93,36 +88,9 @@ void stateControl(control_data *control, sensor_data *sensors, self_data *self, 
 	}
 
 	  //角速度环（内环）
-/*
-		if (setpoint->mode.roll == modeVelocity)
-		{
-			rateDesired.x = setpoint->attitudeRate.x;
-			attitudeControllerResetRollAttitudePID();
-		}
-		if (setpoint->mode.pitch == modeVelocity)
-		{
-			rateDesired.y = setpoint->attitudeRate.y;
-			attitudeControllerResetPitchAttitudePID();
-		}*/
 		// 角速度 期望内环准备开始调试
 		attitudeRatePID(&sensors->gyro, &rateDesired, control);
-		//  todo 油门 和yaw采用pid结果
-	// 要求高度环为1m~2m 飞机就在1到2的高度飞行，其次，初始高度设置为1m就是 100~150~200
-	  printf("加入高度环后油门变换 %f \r\n",actualThrust);
-		actualThrust = (65535-1)/2;
 		control->thrust = actualThrust;	
-		control->yaw = 0;  // 调整内环的时候yaw不参与处理
-
-	if (control->thrust < 5.f)
-	{			
-		control->roll = 0;
-		control->pitch = 0;
-		control->yaw = 0;
-		
-		attitudeResetAllPID();	/*复位姿态PID*/	
-		positionResetAllPID();	/*复位位置PID*/
-		attitudeDesired.z = self->attitude.z;		/*复位计算的期望yaw值*/
-	}
 }
 
 
@@ -153,7 +121,11 @@ void powerControl(control_data *control)	/*功率输出控制*/
 	       低-45]
 	
 		逆时针正，顺时针负数
-	
+	  
+yaw	
+	正<--
+		    |
+	 负---
 	
 	左转13大24小
 	
@@ -170,6 +142,14 @@ void powerControl(control_data *control)	/*功率输出控制*/
 	
 	motorPWM.m4 = limitThrust(control->thrust + r + p - control->yaw);		
 
+
+	 //  float thrust = ((float)motorPWM.m1 / 65536.0f) * 60;
+			// 系数-0.0006239f和0.088f用于定义推力和电压之间的关系
+			//float volts = -0.0006239f * thrust * thrust + 0.088f * thrust;
+			//float percentage = volts / voltage;
+			//percentage = percentage > 1.0f ? 1.0f : percentage;
+			//motorPWM.m1 = percentage * UINT16_MAX;
+			 
 	if (motorSetEnable)
 	{
 		motorPWM = motorPWMSet;

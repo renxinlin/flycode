@@ -40,10 +40,6 @@ typedef enum
 /////命令  dataLen  【命令| 具体命令 数据可以null】
 /////数据  dataLen  【数据| 具体命令 数据可以null】
 void commanderGetSetpoint(expect_data *setpoint, self_data *state);
-void flyerAutoLand(expect_data *setpoint,const self_data *state);
-static void ctrlDataUpdate(void);
+// void flyerAutoLand(expect_data *setpoint,const self_data *state);
 static void rotateYawCarefree(expect_data *setpoint, const self_data *state);
-static void commanderDropToGround(void);
-
-static void commanderLevelRPY(void);
 #endif 

@@ -11,7 +11,7 @@
 #define MPU_IIC_GPIO   GPIOB 		
 #define MPU_IIC_SCL    GPIO_PIN_6 		
 #define MPU_IIC_SDA    GPIO_PIN_7 		
-#define MPU_IIC_DELAY    2
+#define MPU_IIC_DELAY  2
 
 
 

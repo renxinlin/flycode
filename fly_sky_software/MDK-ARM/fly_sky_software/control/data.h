@@ -215,9 +215,11 @@ typedef struct
 
 enum ctrlMode
 {
-	ALTHOLD_MODE,// 定高
-	MANUAL_MODE,
-	THREEHOLD_MODE, // 定点
+	ALTHOLD_MODE,// 0 定高
+	RATE_PITCH_ROLL_MODE, //  1
+	MANUAL_MODE, // 2 油门手动 
+	ANGLE_PITCH_ROLL_MODE, // 3
+	BIAS_UPDATE, // 4 偏置p/r更新  
 };
 
 enum flightMode
@@ -250,16 +252,6 @@ typedef __packed struct
  uint8_t checksum; // 校验值 1
 } remoter_data; 
 
-typedef __packed struct
-{
-	float roll;       // deg
-	float pitch;      // deg
-	float yaw;        // deg
-	float trimPitch;
-	float trimRoll;
-	u16 thrust;
-} ctrlval_data; // 最后的姿态控制数据
-
 typedef struct
 {
 	u8 ctrlMode		: 2;	/*bit0  1=定高模式 0=手动模式   bit1  1=定点模式*/
@@ -282,14 +274,19 @@ typedef struct
 }motorPwm_data;
 
 
-extern ctrlval_data ctrlValLpf;
-extern commanderBits_data commanderBits;
 extern self_data self;
 extern remoter_data remoter; // 遥控器下传飞机数据
 extern remoter_data remoter_buffer; // 飞机上传遥控器数据
 extern configParam_data configParam; // pid持久化的数据
 extern expect_data expect_set_point; // 根据遥控器获得的期望设置目标数据
 extern control_data control_info; // 根据遥控器获得的期望设置目标数据
+extern float voltage; // 电池电压
+
+
+extern long systime;
+extern int systime_ms;
+extern int remeote_recieve ;
+extern long last_remeote_recieve_time;
 
 #endif 
 

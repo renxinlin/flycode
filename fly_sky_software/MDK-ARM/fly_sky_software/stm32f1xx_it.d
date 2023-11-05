@@ -22,6 +22,8 @@ fly_sky_software\stm32f1xx_it.o: C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_
 fly_sky_software\stm32f1xx_it.o: C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h
 fly_sky_software\stm32f1xx_it.o: C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h
 fly_sky_software\stm32f1xx_it.o: C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h
+fly_sky_software\stm32f1xx_it.o: C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc.h
+fly_sky_software\stm32f1xx_it.o: C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc_ex.h
 fly_sky_software\stm32f1xx_it.o: C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
 fly_sky_software\stm32f1xx_it.o: C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
 fly_sky_software\stm32f1xx_it.o: C:/Users/mac/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.4/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
@@ -34,6 +36,7 @@ fly_sky_software\stm32f1xx_it.o: .\fly_sky_software\inv_mpu_dmp_motion_driver.h
 fly_sky_software\stm32f1xx_it.o: ../Core/Inc/usart.h
 fly_sky_software\stm32f1xx_it.o: ../Core/Inc/main.h
 fly_sky_software\stm32f1xx_it.o: ../Core/Inc/gpio.h
+fly_sky_software\stm32f1xx_it.o: ../Core/Inc/adc.h
 fly_sky_software\stm32f1xx_it.o: ../Core/Inc/spi.h
 fly_sky_software\stm32f1xx_it.o: .\fly_sky_software\system\delay.h
 fly_sky_software\stm32f1xx_it.o: .\fly_sky_software\mpu.h

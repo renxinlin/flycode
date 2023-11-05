@@ -100,7 +100,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     HAL_GPIO_Init(UART1_IO_IN_GPIO_Port, &GPIO_InitStruct);
 
     /* USART1 interrupt Init */
-    HAL_NVIC_SetPriority(USART1_IRQn, 0, 0);
+    HAL_NVIC_SetPriority(USART1_IRQn, 2, 0);
     HAL_NVIC_EnableIRQ(USART1_IRQn);
 		HAL_UART_Receive_IT(&huart1, (uint8_t *)&irq_buffer, 1);
   /* USER CODE BEGIN USART1_MspInit 1 */

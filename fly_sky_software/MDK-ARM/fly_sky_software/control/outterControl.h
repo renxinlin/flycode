@@ -15,6 +15,5 @@ void positionControlInit(float ratePidDt, float posPidDt);
 void positionResetAllPID(void);
 void positionController(float* thrust, attitude_data *attitude, expect_data *expect_data, const self_data *self_data, float dt);
 void positionPIDwriteToConfigParam(void);
-float getAltholdThrust(void);
 
 #endif

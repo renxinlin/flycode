@@ -15,6 +15,8 @@ https://github.com/J20RC/STM32_RC_Transmitter/blob/master/software/User/main.c
 #include "nrf2401.h"
 #include "spi.h"
 #include "data.h"
+#include "innerControl.h"
+
 /************************************************************************
 *代码移植修改区
 *只需要根据原理图修改对应的端口时钟 端口 引脚
@@ -342,7 +344,7 @@ void EXTI1_IRQHandler(void)
 			NRF24l01_write_reg(W_REGISTER+STATUS,MAX_TX);//清除接达到最大重发标志
 			NRF24l01_write_reg(FLUSH_TX,0xff); //清除TX_FIFO
 			// printf("Sent Max Data!!!\r\n"); 
-				HAL_GPIO_TogglePin(led1_GPIO_Port, led1_Pin);
+			//	HAL_GPIO_TogglePin(led1_GPIO_Port, led1_Pin);
 		}
    // HAL_NVIC_ClearPendingIRQ(EXTI1_IRQn);
 	}
@@ -353,12 +355,12 @@ void EXTI1_IRQHandler(void)
 
 void Remote_Data_Send(void)
 {
-	NRF_TX_DATA[0] =remoter_buffer.type;//帧头
+	NRF_TX_DATA[0] =remoter.type;//帧头
 	NRF_TX_DATA[1] = remoter_buffer.command; //标志位组
   NRF_TX_DATA[2] =remoter_buffer.rcLock;
-  NRF_TX_DATA[3] =remoter_buffer.ctrlMode;
+  NRF_TX_DATA[3] =remoter.ctrlMode;
   NRF_TX_DATA[4] = remoter_buffer.flightMode;
-	NRF_TX_DATA[5] = remoter_buffer.length;
+	NRF_TX_DATA[5] = remoter.length;
   
 	// 分别提取 roll_value 的每个字节，并写入到 NRF_RX_DATA 数组的第6到9位
 	  union {
@@ -420,6 +422,8 @@ void Remote_Data_Send(void)
 
 void Remote_Data_ReceiveAnalysis(void)
 {
+	// 长时间收不到遥控器数据则停机
+	last_remeote_recieve_time = systime;
 	remoter.type  = NRF_RX_DATA[0];
 	remoter.command  = NRF_RX_DATA[1];
 	remoter.rcLock  = NRF_RX_DATA[2];
@@ -469,14 +473,39 @@ void Remote_Data_ReceiveAnalysis(void)
 	remoter.trimPitch  =convertTrimPitch.f;
 	remoter.trimRoll  = convertTrimRoll.f;
 	remoter.checksum  = NRF_RX_DATA[30];
+		remoter.yaw  = 0; // todo 先mock 
+
+	if(remoter.ctrlMode==RATE_PITCH_ROLL_MODE){ //  RATE_PITCH_ROLL_MODE = 1
+		pidRatePitch.kp=remoter.type;
+		pidRatePitch.ki=remoter.length/100.0f;
+		pidRatePitch.kd=remoter.checksum/100.0f;
+		pidRateRoll.kp=remoter.type;
+		pidRateRoll.ki=remoter.length/100.0f;
+		pidRateRoll.kd=remoter.checksum/100.0f;
+	}
 	
-	commanderBits.ctrlMode = remoter.ctrlMode ;
-	// todo 处理命令
-	commanderBits.keyFlight = 1; 
-	commanderBits.keyLand = 0;
-	commanderBits.emerStop = 0;
-	commanderBits.flightMode = remoter.flightMode; // 有头 1无头
-//	 printf("recive fly r %f p %f y %f \r\n",remoter.roll,remoter.pitch,remoter.yaw);
+	if(remoter.ctrlMode==ANGLE_PITCH_ROLL_MODE){ //  ANGLE_PITCH_ROLL_MODE = 3
+		pidAnglePitch.kp=remoter.type/10.0f;
+		pidAnglePitch.ki=remoter.length/100.0f;
+		pidAnglePitch.kd=remoter.checksum/100.0f;
+		pidAngleRoll.kp=remoter.type/10.0f;
+	  pidAngleRoll.ki=remoter.length/100.0f;
+		pidAngleRoll.kd=remoter.checksum/100.0f;
+	}
+	if(remoter.ctrlMode == BIAS_UPDATE){ // BIAS_UPDATE = 4
+		configParam.trimP = remoter.trimPitch;	/*更新微调值*/
+		configParam.trimR = remoter.trimRoll;
+	}
+	
+	// 油门还是定高 默认定高
+	
+	if(remoter.ctrlMode == ALTHOLD_MODE || remoter.ctrlMode == MANUAL_MODE ){ // BIAS_UPDATE = 4
+			// 已经是油门或者定高模式
+	}else{
+		// 默认模式
+		remoter.ctrlMode = MANUAL_MODE;
+	}
+	
 }
 
  

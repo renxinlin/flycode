@@ -280,7 +280,7 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 
 /* USER CODE BEGIN 1 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
+{	
   if (htim->Instance == TIM2)
   {
     // 在这里添加需要执行的代码
@@ -291,6 +291,29 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		counter_10ms++;
 		counter_20ms++;
 		counter_50ms++;
+		// 每次1ms
+		systime_ms++;
+		if(systime_ms>=1000){
+			systime_ms=0;
+			systime++;
+		}
+  }
+	
+	
+	  if (htim->Instance == TIM1)
+  {
+    printf("TIM1");
+
+  }
+	  if (htim->Instance == TIM3)
+  {
+    printf("TIM3");
+
+  }
+	  if (htim->Instance == TIM4)
+  {
+    printf("TIM4");
+
   }
 }
 

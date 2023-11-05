@@ -59,6 +59,7 @@ void attitudeRatePID(acc_data *actualRate,acc_data *desiredRate,control_data *ou
 	output->roll = pidOutLimit(pidUpdate(&pidRateRoll, desiredRate->x - actualRate->x));
 	output->pitch = pidOutLimit(pidUpdate(&pidRatePitch, desiredRate->y - actualRate->y));
 	output->yaw = pidOutLimit(pidUpdate(&pidRateYaw, desiredRate->z - actualRate->z));
+
 	/*
 	printf("================================================================\r\n");
 	printf("pid out is %f\r\n",pidRateRoll.out);

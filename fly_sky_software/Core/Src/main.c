@@ -18,6 +18,8 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#define VREF            4.2f
+
 uint8_t    SENSER_OFFSET_FLAG; 
 
 /* Private includes ----------------------------------------------------------*/
@@ -108,10 +110,9 @@ int main(void)
 	HAL_GPIO_TogglePin(led1_GPIO_Port, led1_Pin);
 					HAL_Delay(500);
 
-	while(MPU_Init()){
+	 while(MPU_Init()){
 			HAL_GPIO_TogglePin(led1_GPIO_Port, led1_Pin);
 		  printf("canot init mpu\r\n");
-
 	}
 	while(mpu_dmp_init())  //加速度传感器自检
 	{
@@ -137,32 +138,53 @@ int main(void)
 	HAL_GPIO_TogglePin(led1_GPIO_Port, led1_Pin);
 	configParamInit();
  	stateControlInit();
+	HAL_GPIO_TogglePin(led1_GPIO_Port, led1_Pin);
+	
+	// 安全程序
+	remeote_recieve = 0;
+	systime_ms=0;		
+  systime = 0;
+	last_remeote_recieve_time = -1000;
   while (1)
   {
+		// 安全控制： 2s内收到遥控器数据则保持状态,否则停机
+		if((systime - last_remeote_recieve_time )>2){
+			remeote_recieve = 0;
+		}else{
+			remeote_recieve=1;
+		}
+			
+			
 		if(counter_2ms>=2){
+
 			 counter_2ms = 0;
 			// 2ms任务执行
 				if(mpu_dmp_get_data(&pitch,&roll,&yaw)==0){      
 						self.attitude.x = roll;
 						self.attitude.y = pitch;
 						self.attitude.z = yaw;
-				 	//	printf("三轴角度：roll = %f pitch = %f yaw = %f\r\n",roll,pitch,yaw);
+					//	printf("三轴角度：roll = %f pitch = %f yaw = %f\r\n",roll,pitch,yaw);
 				}
 			stateControl(&control_info, &sensors, &self, &expect_set_point, tick);
+						//	printf(" roll = %d pitch = %d  yaw = %d \r\n",control_info.roll,control_info.pitch,control_info.yaw);
+
 			tick++;
 			if(tick>1){
 				tick = 0;
 			}
+		
 			// 飞机解锁 1为解锁 0默认上锁
-			control_info.pitch = withBias && remoter.rcLock == 1 ? control_info.pitch : 0;
-			control_info.roll = withBias && remoter.rcLock == 1 ? control_info.roll : 0;
-			control_info.yaw = withBias && remoter.rcLock == 1 ? control_info.yaw : 0;
-			control_info.thrust = withBias && remoter.rcLock == 1 ? control_info.thrust : 0;
-
+			control_info.pitch = remeote_recieve==1 && withBias && remoter.rcLock == 1 ? control_info.pitch : 0;
+			control_info.roll = remeote_recieve==1 && withBias && remoter.rcLock == 1 ? control_info.roll : 0;
+			control_info.yaw = remeote_recieve==1 && withBias && remoter.rcLock == 1 ? control_info.yaw : 0;
+			// 0到65535
+			control_info.thrust = remeote_recieve && withBias && remoter.rcLock == 1 ? control_info.thrust : 0;
 			powerControl(&control_info);
 
 		}
+
 		if(counter_5ms>=5){
+
 				counter_5ms = 0;
 				// 气压计数据获取
 				// 5ms任务执行
@@ -172,8 +194,10 @@ int main(void)
 			sensors.baro.asl = (float) asl;
 			// 2200
 			// printf("height is %f \r\n",sensors.baro.asl);
+
 		}
 		if(counter_4ms>=4){
+
 			counter_4ms = 0;
 			withBias = sensorsDataGet();			
 			if(withBias){
@@ -185,53 +209,78 @@ int main(void)
 			// baseacc is 0.999919
 			// 估算自身高度
 		  positionEstimate(&sensors, &self, 0.004f);
-
 		}
+
 		if(counter_10ms>=10){
 			counter_10ms = 0;
+
 			commanderGetSetpoint(&expect_set_point, &self);
 
 			// 遥控器数据处理 
+
 		}
+
 		if(counter_20ms>=20){
 			counter_20ms = 0;
 			// 20ms任务执行
 		}
 		if(counter_50ms>=50){
+			if(withBias){
+				HAL_GPIO_TogglePin(led1_GPIO_Port, led1_Pin);
+			}
 				counter_50ms = 0;
-				 Remote_Data_Send();
+				Remote_Data_Send();
+				// 读取电压
+				if (HAL_ADC_Start(&hadc1) != HAL_OK)
+        {
+            Error_Handler();
+        }
+
+        // 等待转换完成
+        if (HAL_ADC_PollForConversion(&hadc1, 1000) != HAL_OK)
+        {
+            Error_Handler();
+        }
+
+        // 读取转换结果
+        int32_t adc_value = HAL_ADC_GetValue(&hadc1);
+        voltage = ((float)adc_value / 4096.0) * VREF;
+				
+			//	printf("adc is %d and voltage is %f \r\n",adc_value ,voltage);
 			//if(withBias){
 			//		HAL_GPIO_TogglePin(led1_GPIO_Port, led1_Pin);
 			//}
+
  		}
+
 	}
   /* USER CODE END 3 */
 }
 
 	void	configParamInit(void){
 		// pid初始化
-		configParam.pidAngle.roll.kp=5.0; // 5 1 0
-		configParam.pidAngle.roll.ki=1.0;
-		configParam.pidAngle.roll.kd=0.0;
+		configParam.pidAngle.roll.kp=4; // 2.8 0.01 0.01
+		configParam.pidAngle.roll.ki=0.02; // 0
+		configParam.pidAngle.roll.kd=0.02;
 		
-		configParam.pidAngle.pitch.kp=5.0; // 8
-		configParam.pidAngle.pitch.ki=1.0;
-		configParam.pidAngle.pitch.kd=0.0;
+		configParam.pidAngle.pitch.kp=4; //  2就肉了 1 高频震荡 尝试内环p在小一点 外环p在稍微大一点
+		configParam.pidAngle.pitch.ki=0.02;
+		configParam.pidAngle.pitch.kd=0.02;
 		
 
 /////////////////////
-		configParam.pidRate.roll.kp=110.0; // 
-		configParam.pidRate.roll.ki=2.0;
-		configParam.pidRate.roll.kd=2.0; // 6
+		configParam.pidRate.roll.kp=65.0; //    10旋转发飘   40恢复力不强（60~70合理值）80高频震动  100~200有力来回晃动  发散 
+		configParam.pidRate.roll.ki=0.1;
+		configParam.pidRate.roll.kd=0.781; // 6
 		// 回中比较慢,还会角度掉落,应该还有很高频很微小的震动需要修复
 			// 125 8 5
 		// 回中比较慢,还会角度掉落,很高频很微小的震动相比
 
-			// 145 10 4
+			// p 3~5 60~80
 			// 160 8 5
 			// 200 8 10
 		// 我们期望一个好的值时小幅度的等幅晃动
-		configParam.pidRate.pitch.kp=110.0; //[120 ,135]
+		configParam.pidRate.pitch.kp=65.0; //[120 ,135]
 		// 200~240晃动 400晃动增大
 		// 100 150  300 400 600 800 1000
 		// 170 4.1V晃动
@@ -252,17 +301,18 @@ int main(void)
 		
 		// 130时稳定，现在的关键时找出p的上限,与d如何抑制 以及快速回中是靠油门还是外环
 		// 已经证明角速度环需要快速响应变化,所以需要从基础油门入手调整
-		configParam.pidRate.pitch.ki=2.0;
-		configParam.pidRate.pitch.kd=2.0; // 6.5
+		configParam.pidRate.pitch.ki=0.1;
+		configParam.pidRate.pitch.kd=0.78; // 6.5
+		////////////////////////////////////////////////////////////
+		configParam.pidAngle.yaw.kp=2;//  20
+		configParam.pidAngle.yaw.ki=0.5;
+		configParam.pidAngle.yaw.kd=0;
 		
-		configParam.pidAngle.yaw.kp=0.0;//  20
-		configParam.pidAngle.yaw.ki=0.0;
-		configParam.pidAngle.yaw.kd=1.5;
-		
-		configParam.pidRate.yaw.kp=1; // 200 80
-		configParam.pidRate.yaw.ki=0; // 18.5
+		configParam.pidRate.yaw.kp=30; // 200 80
+		configParam.pidRate.yaw.ki=0.2; // 18.5
 		configParam.pidRate.yaw.kd=0.0; // 0.0
-		
+		////////////////////////////////////////////////////////////
+
 		configParam.pidPos.z.kp=6.0;
 		configParam.pidPos.z.ki=0.0;
 		configParam.pidPos.z.kd=4.5;
@@ -276,7 +326,7 @@ int main(void)
 		configParam.thrustBase=(65535-1)/2 ;
 		// 偏置
 		configParam.trimR=0.f;
-		configParam.trimP=0.f;
+		configParam.trimP=0.f; // 飞机向y反方向飞
 		/////////////////////////////////////////////  110 2 2
 		
 		configParam.pidPos.x.kp=4.0;

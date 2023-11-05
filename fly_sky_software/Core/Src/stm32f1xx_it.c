@@ -203,6 +203,7 @@ void TIM2_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM2_IRQn 0 */
   /* USER CODE END TIM2_IRQn 0 */
+	//__HAL_TIM_CLEAR_IT(&htim2, TIM_IT_UPDATE);
   HAL_TIM_IRQHandler(&htim2);
   /* USER CODE BEGIN TIM2_IRQn 1 */
 

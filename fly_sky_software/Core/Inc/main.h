@@ -32,6 +32,7 @@ extern "C" {
 #include "inv_mpu_dmp_motion_driver.h" 
 #include "usart.h"
 #include "gpio.h"
+#include "adc.h" 
 #include "spi.h" 
 #include "delay.h" 
 #include "mpu.h" 

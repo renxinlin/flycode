@@ -3,6 +3,7 @@
 
 #include <math.h>
 #include "pid.h"
+#include "stdio.h"
 #include "maths.h"
 
 /********************************************************************************	 
@@ -33,7 +34,6 @@
 #define PIDZ_OUTPUT_LIMIT	120.0f	//Z轴速度限幅(单位cm/s)
 
 
-static float thrustLpf = THRUST_BASE;	/*油门低通*/
 extern configParam_data configParam; // pid持久化的数据
 
 
@@ -63,75 +63,24 @@ void positionControlInit(float velocityPidDt, float posPidDt)
 	pidSetOutputLimit(&pidZ, PIDZ_OUTPUT_LIMIT);		/* 输出限幅 */
 }
 
-static void velocityController(float* thrust, attitude_data *attitude, expect_data *setpoint, const self_data *state)                                                         
-{	
-	static uint16_t altholdCount = 0;
-	
-	// Roll and Pitch
-	attitude->x = 0.15f * pidUpdate(&pidVX, setpoint->velocity.x - state->velocity.x);
-	attitude->y = 0.15f * pidUpdate(&pidVY, setpoint->velocity.y - state->velocity.y);
-	
-	/**
-setpoint->mode.x = modeDisable;
-	setpoint->mode.y = modeDisable;		
-				setpoint->mode.z = modeAbs;	
-	setpoint->velocity.z 已经有了，求state->velocity.z
-		*/
-	// Thrust
-	float thrustRaw = pidUpdate(&pidVZ, setpoint->velocity.z - state->velocity.z);
-	
-	*thrust = constrainf(thrustRaw + THRUST_BASE, 1000, 60000);	/*油门限幅*/
-	
-	thrustLpf += (*thrust - thrustLpf) * 0.003f;
-	
-	if(commanderBits.keyFlight)	/*定高飞行状态*/
-	{
-		if(fabs(state->acc.z) < 35.f)
-		{
-			altholdCount++;
-			if(altholdCount > 1000)
-			{
-				altholdCount = 0;
-				if(fabs(configParam.thrustBase - thrustLpf) > 1000.f)	/*更新基础油门值*/
-					configParam.thrustBase = thrustLpf;
-			}
-		}else
-		{
-			altholdCount = 0;
-		}
-	}else if(commanderBits.keyLand)	/*降落完成，油门清零*/
-	{
-		*thrust = 0;
-	}
-}
+
 
 void positionController(float* thrust, attitude_data *attitude, expect_data *setpoint, const self_data *state, float dt)                                                
 {	
-	/**
-	setpoint->mode.x = modeDisable;
-	setpoint->mode.y = modeDisable;		
-				setpoint->mode.z = modeAbs;		
 
-	
-	if (setpoint->mode.x == modeAbs || setpoint->mode.y == modeAbs)
-	{
-		setpoint->velocity.x = 0.1f * pidUpdate(&pidX, setpoint->position.x - state->position.x);
-		setpoint->velocity.y = 0.1f * pidUpdate(&pidY, setpoint->position.y - state->position.y);
-	}
-	*/
+	// 先控制外环
 	if (setpoint->mode.z == modeAbs)
 	{
+	//	printf(" fly expect height %f, actual height is %f \r\n",setpoint->position.z, state->position.z);
 		setpoint->velocity.z = pidUpdate(&pidZ, setpoint->position.z - state->position.z);
 	}
-	
-	velocityController(thrust, attitude, setpoint, state);
+	// 传感器是否更新state->velocity.z与state->position.z 
+	// todo 后面看看速率环可能直接删掉，直接使用高度环
+	// printf(" fly expect height %f, actual height is %f \r\n",setpoint->velocity.z, state->velocity.z);
+	float thrustRaw = pidUpdate(&pidVZ, setpoint->velocity.z - state->velocity.z);
+	*thrust = constrainf(thrustRaw + THRUST_BASE, THRUST_BASE, 60000);	/*油门限幅*/
 }
 
-/*获取定高油门值*/
-float getAltholdThrust(void)
-{
-	return thrustLpf;
-}
 
 void positionResetAllPID(void)
 {

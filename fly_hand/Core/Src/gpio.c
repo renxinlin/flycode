@@ -117,13 +117,12 @@ void MX_GPIO_Init(void)
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	static int i = 0; // 微调模式
-	if (GPIO_Pin == BUTTON1_PIN
-	)
+	if (GPIO_Pin == BUTTON1_PIN)
   {
     // 根据按键处理发送给飞机的数据 以及显示器的展示
 		printf("BUTTON1_PIN 右下 飞机解锁");
-		delay_us(10000);  // 消抖延时，根据需要调整延时时间
-        if (HAL_GPIO_ReadPin(BUTTON_GPIO_PORT, BUTTON1_PIN) == GPIO_PIN_RESET) {
+		delay_us(1000);  // 消抖延时，根据需要调整延时时间
+        if (HAL_GPIO_ReadPin(BUTTON_GPIO_PORT, GPIO_Pin) == GPIO_PIN_RESET) {
             if(remoter_buffer.rcLock == 0){
 							// 解锁
 							printf("解锁");
@@ -137,11 +136,10 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 						}
         }
   }
-		if (GPIO_Pin == BUTTON2_PIN
-	)
+		if (GPIO_Pin == BUTTON2_PIN)
   {
 		
-					delay_us(10000);  // 消抖延时，根据需要调整延时时间 hal_delay导致卡死
+					delay_us(1000);  // 消抖延时，根据需要调整延时时间 hal_delay导致卡死
 					if (HAL_GPIO_ReadPin(BUTTON_GPIO_PORT, GPIO_Pin) == GPIO_PIN_RESET) {
 					 		if(trim == 0){
 								// 微调模式开启
@@ -155,51 +153,22 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 					
     // 根据
   }
-		if (GPIO_Pin == BUTTON3_PIN
-	)
+	if (GPIO_Pin == BUTTON3_PIN||GPIO_Pin == BUTTON4_PIN)
   {
-				printf("BUTTON1_PIN 左上 模式");
-				delay_us(10000);  // 消抖延时，根据需要调整延时时间
-        if (HAL_GPIO_ReadPin(BUTTON_GPIO_PORT, BUTTON1_PIN) == GPIO_PIN_RESET) {
-            if(remoter_buffer.ctrlMode == 0){
-							// 解锁
-//							ctrlMode type length checksum被重新映射成开关以及pid
-						
-							printf("打开pid调节");
-							remoter_buffer.ctrlMode=1;
-						}else{
-							// 上锁
-							printf("关闭pid调节");
-							remoter_buffer.rcLock=0;
+		delay_us(1000);  // 消抖延时，根据需要调整延时时间
+		if (HAL_GPIO_ReadPin(BUTTON_GPIO_PORT, GPIO_Pin) == GPIO_PIN_RESET) {
+			if(remoter_buffer.ctrlMode == 1){	
+										printf("内环调节\r\n");
 
-						}
-        }
+					remoter_buffer.ctrlMode=3;
+			}else{
+									remoter_buffer.ctrlMode=1;
+										printf("外环调节\r\n");
 
-    // 根据
+
+			}
+		}
   }
-		if (GPIO_Pin == BUTTON4_PIN
-	)
-  {
-					delay_us(10000);  // 消抖延时，根据需要调整延时时间 hal_delay导致卡死
-					if (HAL_GPIO_ReadPin(BUTTON_GPIO_PORT, GPIO_Pin) == GPIO_PIN_RESET) {
-							i++;
-							if(i>2){
-								i=0;
-							}
-							if(i==1){
-								printf("增加内环p");
-							}
-								if(i==2){
-								printf("减少加内环p");
-							}
-							
-					}
-
-    // 根据
-  }
-	
-	
-	
 }
 
 /* USER CODE END 2 */

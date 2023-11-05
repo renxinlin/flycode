@@ -22,134 +22,12 @@ Dialog DLL:      TCM.DLL V1.36.2.0
  
 <h2>Project:</h2>
 C:\Mac\Home\Desktop\gitprocess\fly_sky_software\MDK-ARM\fly_sky_software.uvprojx
-Project File Date:  07/04/2023
+Project File Date:  10/11/2023
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'fly_sky_software'
-compiling main.c...
-.\fly_sky_software\drivers\soft\bmp280.h(103): warning:  #1295-D: Deprecated declaration BMP280_Init - give arg types
-  void BMP280_Init();
-.\fly_sky_software\drivers\soft\bmp280.h(106): warning:  #1-D: last line of file ends without a newline
-  #endif /* __BMP280_H */
-.\fly_sky_software\control\pid.h(26): warning:  #1-D: last line of file ends without a newline
-  #endif /* __PID_H */
-.\fly_sky_software\control\innerControl.h(27): warning:  #1-D: last line of file ends without a newline
-  #endif
-.\fly_sky_software\control\control.h(12): warning:  #1-D: last line of file ends without a newline
-  #endif
-../Core/Src/main.c(76): warning:  #177-D: variable "i"  was declared but never referenced
-  		int32_t i=0,i1=0;
-../Core/Src/main.c(76): warning:  #177-D: variable "i1"  was declared but never referenced
-  		int32_t i=0,i1=0;
-../Core/Src/main.c(77): warning:  #177-D: variable "pressure1"  was declared but never referenced
-  		double pressure1, temperature1, asl1;
-../Core/Src/main.c(77): warning:  #177-D: variable "temperature1"  was declared but never referenced
-  		double pressure1, temperature1, asl1;
-../Core/Src/main.c(77): warning:  #177-D: variable "asl1"  was declared but never referenced
-  		double pressure1, temperature1, asl1;
-../Core/Src/main.c(130): warning:  #177-D: variable "pwmValue"  was declared but never referenced
-  	uint32_t pwmValue = 0;
-../Core/Src/main.c: 11 warnings, 0 errors
-compiling usart.c...
-.\fly_sky_software\drivers\soft\bmp280.h(103): warning:  #1295-D: Deprecated declaration BMP280_Init - give arg types
-  void BMP280_Init();
-.\fly_sky_software\drivers\soft\bmp280.h(106): warning:  #1-D: last line of file ends without a newline
-  #endif /* __BMP280_H */
-.\fly_sky_software\control\pid.h(26): warning:  #1-D: last line of file ends without a newline
-  #endif /* __PID_H */
-.\fly_sky_software\control\innerControl.h(27): warning:  #1-D: last line of file ends without a newline
-  #endif
-.\fly_sky_software\control\control.h(12): warning:  #1-D: last line of file ends without a newline
-  #endif
-../Core/Src/usart.c: 5 warnings, 0 errors
-compiling nrf2401.c...
-.\fly_sky_software\drivers\soft\bmp280.h(103): warning:  #1295-D: Deprecated declaration BMP280_Init - give arg types
-  void BMP280_Init();
-.\fly_sky_software\drivers\soft\bmp280.h(106): warning:  #1-D: last line of file ends without a newline
-  #endif /* __BMP280_H */
-.\fly_sky_software\control\pid.h(26): warning:  #1-D: last line of file ends without a newline
-  #endif /* __PID_H */
-.\fly_sky_software\control\innerControl.h(27): warning:  #1-D: last line of file ends without a newline
-  #endif
-.\fly_sky_software\control\control.h(12): warning:  #1-D: last line of file ends without a newline
-  #endif
-fly_sky_software\drivers\soft\nrf2401.c(69): warning:  #177-D: variable "GPIO_InitStructure"  was declared but never referenced
-    GPIO_InitTypeDef GPIO_InitStructure;
-fly_sky_software\drivers\soft\nrf2401.c(93): warning:  #177-D: variable "buffer"  was declared but never referenced
-  	uint8_t buffer;
-fly_sky_software\drivers\soft\nrf2401.c(132): warning:  #177-D: variable "buffer"  was declared but never referenced
-    uint8_t buffer;
-fly_sky_software\drivers\soft\nrf2401.c: 8 warnings, 0 errors
-compiling outterControl.c...
-fly_sky_software\control\pid.h(26): warning:  #1-D: last line of file ends without a newline
-  #endif /* __PID_H */
-fly_sky_software\control\outterControl.c: 1 warning, 0 errors
-compiling data.c...
-compiling control.c...
-.\fly_sky_software\drivers\soft\bmp280.h(103): warning:  #1295-D: Deprecated declaration BMP280_Init - give arg types
-  void BMP280_Init();
-.\fly_sky_software\drivers\soft\bmp280.h(106): warning:  #1-D: last line of file ends without a newline
-  #endif /* __BMP280_H */
-.\fly_sky_software\control\pid.h(26): warning:  #1-D: last line of file ends without a newline
-  #endif /* __PID_H */
-.\fly_sky_software\control\control.h(12): warning:  #1-D: last line of file ends without a newline
-  #endif
-fly_sky_software\control\innerControl.h(27): warning:  #1-D: last line of file ends without a newline
-  #endif
-fly_sky_software\control\control.h(12): warning:  #1-D: last line of file ends without a newline
-  #endif
-fly_sky_software\control\control.c(216): warning:  #111-D: statement is unreachable
-  				break;
-fly_sky_software\control\control.c(221): warning:  #111-D: statement is unreachable
-  				break;
-fly_sky_software\control\control.c(224): warning:  #111-D: statement is unreachable
-  				break;
-fly_sky_software\control\control.c(236): warning:  #186-D: pointless comparison of unsigned integer with zero
-      } else if (result < 0) {   // 如果结果小于0，则输出0
-fly_sky_software\control\control.c(36): warning:  #177-D: variable "MOTORS"  was declared but never referenced
-  static const uint32_t MOTORS[] = { MOTOR_M1, MOTOR_M2, MOTOR_M3, MOTOR_M4 };
-fly_sky_software\control\control.c: 11 warnings, 0 errors
-compiling protocol.c...
-.\fly_sky_software\drivers\soft\bmp280.h(103): warning:  #1295-D: Deprecated declaration BMP280_Init - give arg types
-  void BMP280_Init();
-.\fly_sky_software\drivers\soft\bmp280.h(106): warning:  #1-D: last line of file ends without a newline
-  #endif /* __BMP280_H */
-.\fly_sky_software\control\pid.h(26): warning:  #1-D: last line of file ends without a newline
-  #endif /* __PID_H */
-.\fly_sky_software\control\innerControl.h(27): warning:  #1-D: last line of file ends without a newline
-  #endif
-.\fly_sky_software\control\control.h(12): warning:  #1-D: last line of file ends without a newline
-  #endif
-fly_sky_software\control\protocol.c(34): warning:  #177-D: variable "maxAccZ"  was declared but never referenced
-  	static float maxAccZ = 0.f;
-fly_sky_software\control\protocol.c(114): warning:  #177-D: function "rotateYawCarefree"  was declared but never referenced
-  static void rotateYawCarefree(expect_data *setpoint, const self_data *state)
-fly_sky_software\control\protocol.c(103): warning:  #177-D: function "commanderDropToGround"  was declared but never referenced
-  static void commanderDropToGround(void)
-fly_sky_software\control\protocol.c(17): warning:  #550-D: variable "yawMode"  was set but never used
-  static YawModeType yawMode = XMODE;	/* 默认为X飞行模式 */
-fly_sky_software\control\protocol.c(19): warning:  #550-D: variable "isRCLocked"  was set but never used
-  static uint8_t isRCLocked = 0;				/* 遥控锁定状态 1打开 0上锁*/
-fly_sky_software\control\protocol.c(21): warning:  #177-D: variable "initHigh"  was declared but never referenced
-  static uint8_t initHigh ;
-fly_sky_software\control\protocol.c(22): warning:  #177-D: variable "isAdjustingPosZ"  was declared but never referenced
-  static uint8_t isAdjustingPosZ  ; /*调整Z位置*/
-fly_sky_software\control\protocol.c(23): warning:  #177-D: variable "isAdjustingPosXY"  was declared but never referenced
-  static uint8_t isAdjustingPosXY = 1; /*调整XY位置*/
-fly_sky_software\control\protocol.c(24): warning:  #177-D: variable "adjustPosXYTime"  was declared but never referenced
-  static uint8_t adjustPosXYTime = 0;		/*XY位置调整时间*/
-fly_sky_software\control\protocol.c(27): warning:  #177-D: variable "errorPosX"  was declared but never referenced
-  static float errorPosX = 0.f;		/*X位移误差*/
-fly_sky_software\control\protocol.c(28): warning:  #177-D: variable "errorPosY"  was declared but never referenced
-  static float errorPosY = 0.f;		/*Y位移误差*/
-fly_sky_software\control\protocol.c(29): warning:  #177-D: variable "errorPosZ"  was declared but never referenced
-  static float errorPosZ = 0.f;		/*Z位移误差*/
-fly_sky_software\control\protocol.c: 17 warnings, 0 errors
-linking...
-Program Size: Code=36660 RO-data=4324 RW-data=344 ZI-data=9360  
-FromELF: creating hex file...
-"fly_sky_software\fly_sky_software.axf" - 0 Error(s), 53 Warning(s).
+"fly_sky_software\fly_sky_software.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -173,7 +51,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.6.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:07
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>

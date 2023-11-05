@@ -22,6 +22,7 @@ uint8_t MPU_Init(void)
 	MPU_Write_Byte(MPU_FIFO_EN_REG,0X00);	//关闭FIFO
 	MPU_Write_Byte(MPU_INTBP_CFG_REG,0X80);	//INT引脚低电平有效
 	res=MPU_Read_Byte(MPU_DEVICE_ID_REG); 
+	printf("mpu addr is %d \r\n",res);
 	if(res==MPU_ADDR)//器件ID正确 整型值 104
 	{
 		MPU_Write_Byte(MPU_PWR_MGMT1_REG,0X01);	//设置CLKSEL,PLL X轴为参考

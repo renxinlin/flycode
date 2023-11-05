@@ -230,22 +230,29 @@ void BMP280_Read_Calibration(void)
 
 void BMP280_Init()
 {
+	
     uint8_t u8ChipID, u8CtrlMod, u8Status;
-    u8ChipID = BMP280_ReadReg(BMP280_REGISTER_CHIPID);
-    u8CtrlMod = BMP280_ReadReg(BMP280_REGISTER_CONTROL);
-    u8Status = BMP280_ReadReg(BMP280_REGISTER_STATUS);
-    if(u8ChipID == 0x58)
-    {
-				BMP280_WriteReg(BMP280_REGISTER_CONTROL, 0xFF); //ctrl_meas register
-        BMP280_WriteReg(BMP280_REGISTER_CONFIG, 0x0C);  //config register
-        BMP280_Read_Calibration();
-			    		printf("\r\nBMP280 initial success : ChipID [0x%x] CtrlMod [0x%x] Status [0x%x] \r\n", u8ChipID,u8CtrlMod,u8Status);
-
-    }
-    else
-    {
-    		printf("\r\nBMP280 initial failure : ChipID [0x%x] CtrlMod [0x%x] Status [0x%x] \r\n", u8ChipID,u8CtrlMod,u8Status);
-    }
+		while(1){
+			u8ChipID = BMP280_ReadReg(BMP280_REGISTER_CHIPID);
+			u8CtrlMod = BMP280_ReadReg(BMP280_REGISTER_CONTROL);
+			u8Status = BMP280_ReadReg(BMP280_REGISTER_STATUS);
+		
+			if(u8ChipID == 0x58)
+			{
+					BMP280_WriteReg(BMP280_REGISTER_CONTROL, 0xFF); //ctrl_meas register
+					BMP280_WriteReg(BMP280_REGISTER_CONFIG, 0x0C);  //config register
+					BMP280_Read_Calibration();
+								printf("\r\nBMP280 initial success : ChipID [0x%x] CtrlMod [0x%x] Status [0x%x] \r\n", u8ChipID,u8CtrlMod,u8Status);
+					break;
+			}
+			else
+			{
+				HAL_Delay(1000);
+					printf("\r\nBMP280 initial failure : ChipID [0x%x] CtrlMod [0x%x] Status [0x%x] \r\n", u8ChipID,u8CtrlMod,u8Status);
+				break;
+			}
+		}
+    
 
 }
 

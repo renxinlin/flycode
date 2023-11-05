@@ -79,9 +79,8 @@ void positionEstimate(sensor_data* sensorData, self_data* selfData, float dt)
 	for(u8 i=0; i<3; i++)
 		accLpf[i] += (estimator.acc[i] - accLpf[i]) * 0.1f;	/*加速度低通*/
 		
-	uint8_t isKeyFlightLand = commanderBits.keyFlight||commanderBits.keyLand;	/*定高飞或者降落状态*/
 	
-	if(isKeyFlightLand)		/*定高飞或者降落状态*/
+	if(remoter.ctrlMode == ALTHOLD_MODE)		/*定高飞或者降落状态*/
 	{
 		selfData->acc.x = constrainf(accLpf[0], -ACC_LIMIT, ACC_LIMIT);	/*加速度限幅*/
 		selfData->acc.y = constrainf(accLpf[1], -ACC_LIMIT, ACC_LIMIT);	/*加速度限幅*/
@@ -120,7 +119,7 @@ void positionEstimate(sensor_data* sensorData, self_data* selfData, float dt)
 	}	
 
 	// 限幅处理
-	if(isKeyFlightLand)		/*定高飞或者降落状态*/
+	if(remoter.ctrlMode == ALTHOLD_MODE)		/*定高飞或者降落状态*/
 	{
 		selfData->velocity.z = constrainf(estimator.vel[2], -VELOCITY_LIMIT, VELOCITY_LIMIT);	/*速度限幅 VELOCITY_LIMIT*/
 	}else

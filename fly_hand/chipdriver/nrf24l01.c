@@ -164,7 +164,7 @@ uint8_t NRF24L01_Read_Buf(uint8_t reg, uint8_t *pBuf, uint8_t len)
 	{
     status = HAL_SPI_Receive(&hspi1, pBuf, 1, HAL_MAX_DELAY);
 	  if (status != HAL_OK) {
-				printf("HAL_OK not success " );// 			飞机这里不正常	printf("HAL_OK not success " );
+				// printf("HAL_OK not success " );// 			飞机这里不正常	printf("HAL_OK not success " );
 
 				NRF_SCN_HIGH;
 				return status;
@@ -321,7 +321,7 @@ void EXTI1_IRQHandler(void)
 		  NRFset_Mode(IT_RX);	
 			NRF24l01_write_reg(W_REGISTER+STATUS,TX_OK); //清除发送完成标志·
 		  NRF24l01_write_reg(FLUSH_TX,0xff); //清除TX_FIFO
-			// printf("Sent OK!!!!\r\n");
+		//	printf("Sent OK!!!!\r\n");
 		}
 		/* 接收完成中断 RX_OK */
 		if(sta & RX_OK) 
@@ -350,6 +350,12 @@ void Remote_Data_Event(void){
 
 void Remote_Data_Send(void)
 {
+	/*
+	
+ 
+	
+	
+	*/
 	NRF_TX_DATA[0] =remoter_buffer.type;//帧头
 	NRF_TX_DATA[1] = remoter_buffer.command; //标志位组
   NRF_TX_DATA[2] =remoter_buffer.rcLock;
@@ -386,7 +392,7 @@ void Remote_Data_Send(void)
 	NRF_TX_DATA[17] = convertY.bytes[0];
 		
   // 默认定高150cm
-	convertT.f = remoter_buffer.thrust + 150;
+	convertT.f = remoter_buffer.thrust;
 	NRF_TX_DATA[18] = convertT.bytes[3];
 	NRF_TX_DATA[19] = convertT.bytes[2];
 	NRF_TX_DATA[20] = convertT.bytes[1];
@@ -409,8 +415,8 @@ void Remote_Data_Send(void)
 	NRF_TX_DATA[29] = convertTrimRoll.bytes[0];
 		
 	NRF_TX_DATA[30] = remoter_buffer.checksum;
-//	printf("send data %f",remoter_buffer.pitch);
 
+ 
 	uint8_t dogData = 6;
 	NRF_TX_DATA[31] = dogData;
 	NRF24L01_TxPacket(NRF_TX_DATA);
@@ -467,6 +473,12 @@ void Remote_Data_ReceiveAnalysis(void)
 	remoter.trimPitch  =convertTrimPitch.f;
 	remoter.trimRoll  = convertTrimRoll.f;
 	remoter.checksum  = NRF_RX_DATA[30]; 
+	
+	//	printf("re data %d",remoter.type);
+	//printf("re data %d",remoter.length);
+//	printf("re data %d",remoter.checksum);
+//	printf("re data %d \r\n",remoter.ctrlMode);
+
  }
 
 /*****************************************************************************
